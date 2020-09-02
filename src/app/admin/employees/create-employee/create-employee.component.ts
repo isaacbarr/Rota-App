@@ -42,6 +42,7 @@ export class CreateEmployeeComponent implements OnInit {
     this.employeeService.createEmployee(this.employeeForm.value).subscribe(
       (user) => {
         this.user = user;
+        //window reload with message user created
         window.alert("User created");
         location.reload()
       },
