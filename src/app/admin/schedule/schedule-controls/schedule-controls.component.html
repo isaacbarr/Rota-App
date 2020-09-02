@@ -1,0 +1,26 @@
+<div class="container border border-light rounded mb-0 mt-5 p-0">
+  <div class="row">
+    <div class="col-sm-3 text-left pb-0">
+      <button mdbBtn
+      type="button"
+      color="primary"
+      mdbWavesEffect (click)="moveDate(offset - 1)">
+        <mdb-icon fas icon="chevron-circle-left"></mdb-icon>
+      </button>
+    </div>
+    <div class="col-sm-6 text-center pt-2">
+      <h4 class=""> {{ selected | date: "fullDate" }}</h4>
+    </div>
+    <div class="col-sm-3 text-right pb-0">
+      <button
+        mdbBtn
+        type="button"
+        color="primary"
+        mdbWavesEffect
+        (click)="moveDate(offset + 1)"
+      >
+        <mdb-icon fas icon="chevron-circle-right"></mdb-icon>
+      </button>
+    </div>
+  </div>
+</div>

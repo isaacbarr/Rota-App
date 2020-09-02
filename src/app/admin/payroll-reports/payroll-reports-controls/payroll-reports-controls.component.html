@@ -1,0 +1,115 @@
+<div class="container-fluid pt-3">
+  <div *ngIf="error">
+    {{ error }}
+  </div>
+  <form (submit)="getReports(reportsForm)" #reportsForm="ngForm">
+    <div class="row text-center">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col">
+            Start Date
+            <input
+              mdbInput
+              name="startDate"
+              ngModel
+              type="date"
+              class="form-control my-2"
+              #startDate="ngModel"
+              required
+            />
+          </div>
+          <div class="col">
+            <div class="col">
+              End Date
+              <input
+                mdbInput
+                name="endDate"
+                ngModel
+                type="date"
+                class="form-control my-2"
+                #endDate="ngModel"
+                required
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+
+    <div class="row text-center pt-2">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col">
+            <label for="users">Select user:</label>
+
+            <select
+              name="users"
+              class="browser-default custom-select"
+              ngModel
+              name="users"
+              #users="ngModel"
+              required
+            >
+              <option value="all">All</option>
+              <option *ngFor="let user of user" value="{{ user.id }}">
+                {{ user.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col">
+            <button mdbBtn class="blue accent-2" type="submit">
+              Get Reports
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="showReport === true" class="pb-3">
+  <div *ngIf="shifts.length === 0" class="pt-3 text-center">
+    The selected user has no shifts for the selected date range
+  </div>
+
+  <div class="row py-3 text-center">
+    <div class="col"></div>
+    <div class="col">Total Hours: {{ getTotalHoursForDateRange() }}</div>
+    <div class="col"></div>
+    <div class="col">Total Pay: £{{ getTotalPayForDateRange() }}</div>
+    <div class="col"></div>
+  </div>
+
+  <div class="row pb-3">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+      <table mdbTable striped="true">
+        <thead>
+          <tr>
+            <th *ngFor="let head of headElements" scope="col">{{ head }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let shift of shifts">
+            <th scope="row">{{ shift.User.name | titlecase }}</th>
+            <td>{{ shift.date | date: "mediumDate" }}</td>
+            <td>{{ shift.area | titlecase }}</td>
+            <td>{{ shift.startTime }}</td>
+            <td>{{ shift.finishTime }}</td>
+            <td>{{ getTotalHours(shift.startTime, shift.finishTime) }}</td>
+            <td>
+              £{{
+                getShiftPay(shift.startTime, shift.finishTime, shift.User.pay)
+              }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
+</div>

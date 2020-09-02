@@ -1,0 +1,53 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark blue accent-2">
+  <mdb-navbar-brand>
+    <a class="navbar-brand" routerLink="/admin">Rota-App</a>
+  </mdb-navbar-brand>
+  <links>
+    <div class="navbar-nav">
+      <a
+        class="nav-item nav-link waves-light"
+        routerLink="/admin/rota"
+        routerLinkActive="active"
+        mdbWavesEffect
+        >Rota</a
+      >
+      <a
+        class="nav-item nav-link waves-light"
+        routerLink="/admin/employees"
+        routerLinkActive="active"
+        mdbWavesEffect
+        >Employees</a
+      >
+
+      <a
+        class="nav-item nav-link waves-light"
+        routerLink="/admin/timesheets"
+        routerLinkActive="active"
+        mdbWavesEffect
+        >Timesheets</a
+      >
+
+      <a
+      class="nav-item nav-link waves-light"
+      routerLink="/admin/reports"
+      routerLinkActive="active"
+      mdbWavesEffect
+      >Payroll Reports</a
+    >
+
+      <a
+        class="nav-item nav-link waves-light"
+        routerLink="/admin/profile"
+        routerLinkActive="active"
+        mdbWavesEffect
+        >Profile</a
+      >
+    </div>
+
+    <ul class="navbar-nav ml-auto">
+      <a class="nav-link" style="cursor: pointer;" (click)="logoutUser()"
+        >Logout</a
+      >
+    </ul>
+  </links>
+</mdb-navbar>

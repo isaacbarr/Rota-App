@@ -1,0 +1,36 @@
+<div class="container-fluid  pt-2 pb-2">
+  <div class="row">
+    <div class="col-sm-2 text-right">
+      <button
+        mdbBtn
+        type="button"
+        color="primary"
+        size="sm"
+        mdbWavesEffect
+        (click)="moveDate(offset - 1, 0)"
+      >
+        <mdb-icon fas icon="chevron-circle-left"></mdb-icon>
+      </button>
+    </div>
+
+    <div class="col-sm-8 text-center pt-2">
+      <h6 class="">
+        {{ getStartOfWeek(date) | date: "MMMM d  y" }} -
+        {{ getEndOfWeek(date) | date: "MMMM d  y" }}
+      </h6>
+    </div>
+
+    <div class="col-sm-2 text-left">
+      <button
+        mdbBtn
+        type="button"
+        color="primary"
+        mdbWavesEffect
+        size="sm"
+        (click)="moveDate(offset + 1, 1)"
+      >
+        <mdb-icon fas icon="chevron-circle-right"></mdb-icon>
+      </button>
+    </div>
+  </div>
+</div>

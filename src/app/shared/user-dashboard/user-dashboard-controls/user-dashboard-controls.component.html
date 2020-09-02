@@ -1,0 +1,26 @@
+<div class="row ">
+  <button
+    mdbBtn
+    type="button"
+    color="primary"
+    size="sm"
+    mdbWavesEffect
+    (click)="moveDate(offset - 1, 0)"
+  >
+    <mdb-icon fas icon="chevron-circle-left"></mdb-icon>
+  </button>
+  <div class="pt-2">
+    <p class="">W/C : {{ getStartOfWeek(date) | date: " d, MMM" }}</p>
+  </div>
+
+  <button
+    mdbBtn
+    type="button"
+    color="primary"
+    mdbWavesEffect
+    size="sm"
+    (click)="moveDate(offset + 1, 1)"
+  >
+    <mdb-icon fas icon="chevron-circle-right"></mdb-icon>
+  </button>
+</div>

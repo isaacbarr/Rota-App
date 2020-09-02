@@ -1,0 +1,94 @@
+<div *ngIf="error">
+  {{ error }}
+</div>
+
+<div *ngIf="shifts.length === 0" class="py-3">
+  No shifts available for selected employee
+</div>
+
+<div *ngIf="shifts" class="pb-3">
+  <table mdbTable striped="true" class="pb-2">
+    <thead>
+      <tr>
+        <th *ngFor="let head of headElements" scope="col">{{ head }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr mdbTableCol *ngFor="let shift of shifts.slice(0, 5)">
+        <th scope="row">{{ shift.date | date: "EEE, d, MMM" }}</th>
+        <td>{{ shift.startTime }}</td>
+        <td>{{ shift.finishTime }}</td>
+        <td>{{ shift.area | titlecase }}</td>
+        <td>{{ totalShiftHours(shift.startTime, shift.finishTime) }}</td>
+        <td>£{{ shiftInfo(shift.startTime, shift.finishTime) }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row p-2">
+    <div class="col text-right">
+      <button type="button" mdbBtn color="link" (click)="basicModal.show()">View all shifts</button>
+    </div>
+  </div>
+</div>
+
+<!---Modal-->
+<div
+  mdbModal
+  style="overflow-y: auto;"
+  #basicModal="mdbModal"
+  class="modal fade right"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myBasicModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-full-height modal-right" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="basicModal.hide()"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">
+          All shifts
+        </h4>
+      </div>
+
+      <div *ngFor="let shift of shifts">
+        <div>
+          <mdb-card class="p-2">
+            <mdb-card-body>
+              <mdb-card-title class="pb-2">
+                Date: {{ shift.date }}
+              </mdb-card-title>
+
+              <div class="row pb-2">
+                <div class="col">Start Time: {{ shift.startTime }}</div>
+                <div class="col">Finish Time: {{ shift.finishTime }}</div>
+              </div>
+              <div class="row text-center pb-2">
+                <div class="col">Area: {{ shift.area | titlecase }}</div>
+              </div>
+              <div class="">
+                <div class="">
+                  Approved:
+                  <div  class="" *ngIf="shift.approved === true">
+                    <mdb-icon class="green-text" fas icon="check"></mdb-icon>
+                  </div>
+                  <div  class="" *ngIf="shift.approved != true">
+                    <mdb-icon class="red-text" fas icon="times"></mdb-icon>
+                  </div>
+                </div>
+              </div>
+            </mdb-card-body>
+          </mdb-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,517 @@
+<div class="container-fluid">
+  <app-shift-count
+    [startDate]="startDate"
+    [shifts]="allShifts"
+  ></app-shift-count>
+</div>
+
+<div class="container-fluid">
+  <div *ngIf="userId === 0" class="text-center p-3">
+    Please select an employee from list
+  </div>
+</div>
+
+<div *ngIf="shifts.length === 0 && userId != 0" class="pt-2 pb-2">
+  <div class="row pt-2">
+    <div class="col-sm">Total hours worked: {{ getTotalHoursForWeek() }}</div>
+    <div class="col-sm">Total pay: £ 0</div>
+    <div class="col-sm">Total shifts approved: {{ getApprovedShifts() }}</div>
+    <div class="col-sm">
+      <button
+        type="button"
+        mdbBtn
+        color="primary"
+        size="sm"
+        class="relative waves-light"
+        (click)="addShift.show()"
+        mdbWavesEffect
+      >
+        Add unscheduled Shift
+      </button>
+      <div
+        mdbModal
+        #addShift="mdbModal"
+        class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myBasicModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close pull-right"
+                aria-label="Close"
+                (click)="addShift.hide()"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title w-100" id="myModalLabel">
+                Add unscheduled shift
+              </h4>
+            </div>
+            <form
+              (submit)="createShift(createShiftForm)"
+              #createShiftForm="ngForm"
+            >
+              <div class="modal-body">
+                <div class="row p-2">
+                  <div class="col">
+                    Date:
+                    <input
+                      type="date"
+                      ngModel
+                      name="date"
+                      #date="ngModel"
+                      required
+                    />
+                    <div *ngIf="date.invalid" class="text-center time_error">
+                      Enter a date for shift
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row p-2">
+                  <div class="col">
+                    Start Time:<input
+                      type="time"
+                      ngModel
+                      name="startTime"
+                      #startTime="ngModel"
+                      class="text-center"
+                      required
+                    />
+                    <div
+                      *ngIf="startTime.invalid"
+                      class="text-center time_error"
+                    >
+                      Enter a start time
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row p-2">
+                  <div class="col">
+                    Finish Time:<input
+                      type="time"
+                      ngModel
+                      name="finishTime"
+                      #finishTime="ngModel"
+                      class="text-center"
+                      required
+                    />
+                    <div
+                      *ngIf="finishTime.invalid"
+                      class="text-center time_error"
+                    >
+                      Enter a finish time
+                    </div>
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col">
+                    Area:
+                    <input
+                      list="area"
+                      ngModel
+                      name="area"
+                      #area="ngModel"
+                      required
+                    />
+                    <datalist id="area">
+                      <option value="manager"> </option>
+                      <option value="bar"> </option>
+                      <option value="floor"> </option>
+                      <option value="chef"> </option>
+                    </datalist>
+                    <div *ngIf="area.invalid" class="text-center time_error">
+                      Please select an area from the dropdown
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  mdbBtn
+                  color="secondary"
+                  class="waves-light"
+                  aria-label="Close"
+                  (click)="addShift.hide()"
+                  mdbWavesEffect
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  mdbBtn
+                  color="primary"
+                  class="relative waves-light"
+                  mdbWavesEffect
+                >
+                  Save changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="shifts.length === 0 && userId != 0" class="text-center p-3">
+  The selected user has no shifts needing approval
+</div>
+
+<div *ngIf="shifts.length > 0">
+  <div class="row pt-2">
+    <div class="col-sm">Total hours worked: {{ getTotalHoursForWeek() }}</div>
+    <div class="col-sm">Total pay: £{{ getTotalPayForWeek() }}</div>
+    <div class="col-sm">Total shifts approved: {{ getApprovedShifts() }}</div>
+    <div class="col-sm">
+      <button
+        type="button"
+        mdbBtn
+        color="primary"
+        size="sm"
+        class="relative waves-light"
+        (click)="addShift.show()"
+        mdbWavesEffect
+      >
+        Add unscheduled Shift
+      </button>
+
+      <div
+        mdbModal
+        #addShift="mdbModal"
+        class="modal fade"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="myBasicModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button
+                type="button"
+                class="close pull-right"
+                aria-label="Close"
+                (click)="addShift.hide()"
+              >
+                <span aria-hidden="true">×</span>
+              </button>
+              <h4 class="modal-title w-100" id="myModalLabel">
+                Add unscheduled shift
+              </h4>
+            </div>
+            <form
+              (submit)="createShift(createShiftForm)"
+              #createShiftForm="ngForm"
+            >
+              <div class="modal-body">
+                <div class="row p-2">
+                  <div class="col">
+                    Date:
+                    <input
+                      type="date"
+                      ngModel
+                      name="date"
+                      #date="ngModel"
+                      required
+                    />
+                    <div *ngIf="date.invalid" class="text-center time_error">
+                      Enter a date for shift
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row p-2">
+                  <div class="col">
+                    Start Time:<input
+                      type="time"
+                      ngModel
+                      name="startTime"
+                      #startTime="ngModel"
+                      class="text-center"
+                      required
+                    />
+                    <div
+                      *ngIf="startTime.invalid"
+                      class="text-center time_error"
+                    >
+                      Enter a start time
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row p-2">
+                  <div class="col">
+                    Finish Time:<input
+                      type="time"
+                      ngModel
+                      name="finishTime"
+                      #finishTime="ngModel"
+                      class="text-center"
+                      required
+                    />
+                    <div
+                      *ngIf="finishTime.invalid"
+                      class="text-center time_error"
+                    >
+                      Enter a finish time
+                    </div>
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col">
+                    Area:
+                    <input
+                      list="area"
+                      ngModel
+                      name="area"
+                      #area="ngModel"
+                      required
+                    />
+                    <datalist id="area">
+                      <option value="manager"> </option>
+                      <option value="bar"> </option>
+                      <option value="floor"> </option>
+                      <option value="chef"> </option>
+                    </datalist>
+                    <div *ngIf="area.invalid" class="text-center time_error">
+                      Please select an area from the dropdown
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  mdbBtn
+                  color="secondary"
+                  class="waves-light"
+                  aria-label="Close"
+                  (click)="addShift.hide()"
+                  mdbWavesEffect
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  mdbBtn
+                  color="primary"
+                  class="relative waves-light"
+                  mdbWavesEffect
+                >
+                  Save changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngFor="let shift of shifts">
+    <div *ngIf="shift.approved != true">
+      <div *ngIf="shift.date < convertDate">
+        <div class="pt-2 pb-2">
+          <mdb-card class="p-2">
+            <div class="row p-2">
+              <div class="col-sm">Name: {{ shift.User.name | titlecase }}</div>
+              <div class="col-sm">Date: {{ shift.date | date: "E d MMM" }}</div>
+              <div class="col-sm">Area: {{ shift.area | titlecase }}</div>
+              <div class="col-sm">
+                Total Hours:{{
+                  getTotalHours(shift.startTime, shift.finishTime)
+                }}
+              </div>
+              <div class="col-sm">
+                Total pay: £{{
+                  getTotalPay(shift.startTime, shift.finishTime, shift.User.pay)
+                }}
+              </div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-sm">Start time: {{ shift.startTime }}</div>
+              <div class="col-sm"></div>
+              <div class="col-sm">Finish time: {{ shift.finishTime }}</div>
+            </div>
+
+            <div class="row p-2">
+              <div class="col-sm">
+                <button
+                  type="submit"
+                  type="button"
+                  mdbBtn
+                  color="success"
+                  size="sm"
+                  class="relative waves-light"
+                  *ngIf="shift.approved != true"
+                  (click)="approve(shift.id)"
+                >
+                  Approve Hours
+                </button>
+              </div>
+              <div class="col-sm"></div>
+              <div class="col-sm">
+                <button
+                  type="button"
+                  mdbBtn
+                  color="primary"
+                  size="sm"
+                  class="relative waves-light"
+                  (click)="basicModal.show()"
+                  mdbWavesEffect
+                >
+                  Edit shift
+                </button>
+              </div>
+            </div>
+            <div>
+              <form (submit)="changeHours(change, shift.id)" #change="ngForm">
+                <div
+                  mdbModal
+                  #basicModal="mdbModal"
+                  class="modal fade"
+                  tabindex="-1"
+                  role="dialog"
+                  aria-labelledby="myBasicModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <button
+                          type="button"
+                          class="close pull-right"
+                          aria-label="Close"
+                          (click)="basicModal.hide()"
+                        >
+                          <span aria-hidden="true">×</span>
+                        </button>
+                        <h4 class="modal-title w-100" id="myModalLabel">
+                          Edit shift
+                        </h4>
+                      </div>
+                      <div class="modal-body">
+                        <div
+                          *ngIf="updated === true"
+                          class="alert alert-success text-center col"
+                          role="alert"
+                          (click)="hide()"
+                        >
+                          Shift updated
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm">
+                            Start Time:
+                            <input
+                              type="time"
+                              ngModel
+                              #startTime="ngModel"
+                              name="startTime"
+                              [(ngModel)]="shift.startTime"
+                              required
+                            />
+                            <div
+                              *ngIf="startTime.invalid"
+                              class="text-center time_error"
+                            >
+                              Enter a start time
+                            </div>
+                          </div>
+                          <div class="col-sm">
+                            Finish Time :
+                            <input
+                              type="time"
+                              ngModel
+                              #finishTime="ngModel"
+                              name="finishTime"
+                              [(ngModel)]="shift.finishTime"
+                              required
+                            />
+                            <div
+                              *ngIf="finishTime.invalid"
+                              class="text-center time_error"
+                            >
+                              Enter a finish time
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          mdbBtn
+                          color="danger"
+                          class="waves-light"
+                          mdbWavesEffect
+                          (click)="deleteShift(shift.id)"
+                        >
+                          Delete
+                        </button>
+                        <button
+                          mdbBtn
+                          color="primary"
+                          class="relative waves-light"
+                          mdbWavesEffect
+                          type="submit"
+                          (submit)="changeHours(change, shift.id)"
+                        >
+                          Save changes
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </mdb-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngFor="let shift of shifts">
+  <div *ngIf="shift.approved === true">
+    <div *ngIf="shift.date < convertDate">
+      <div class="pt-2 pb-2">
+        <mdb-card class="p-2 mdb-color light-green lighten-4 text-center">
+          <h6>Shift approved</h6>
+
+          <div class="row">
+            <div class="col-sm">Name: {{ shift.User.name | titlecase }}</div>
+            <div class="col-sm">Date: {{ shift.date | date: "E d MMM" }}</div>
+            <div class="col-sm">Area: {{ shift.area | titlecase }}</div>
+            <div class="col-sm">
+              Total Hours:
+              {{ getTotalHours(shift.startTime, shift.finishTime) }}
+            </div>
+            <div class="col-sm">
+              Total pay: £{{
+                getTotalPay(shift.startTime, shift.finishTime, shift.User.pay)
+              }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">Start time: {{ shift.startTime }}</div>
+            <div class="col-sm"></div>
+            <div class="col-sm">
+              Finish time:
+              {{ shift.finishTime }}
+            </div>
+          </div>
+        </mdb-card>
+      </div>
+    </div>
+  </div>
+</div>

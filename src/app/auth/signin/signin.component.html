@@ -1,0 +1,133 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-sm-4 text-center mt-4">
+      <h1 class="text-primary">ROTA APP</h1>
+    </div>
+    <div class="col"></div>
+  </div>
+
+  <div class="container-fluid py-3">
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-sm-4">
+        <form
+          (submit)="onLogin(loginForm)"
+          #loginForm="ngForm"
+          class="border border-dark p-5 rounded mb-0 z-depth-5"
+        >
+          <!--Title-->
+          <p class="h4 mb-4 text-center">SIGN IN</p>
+
+          <!--Email-->
+          <div class="md-form">
+            <div class="mb-4">
+              <input
+                mdbInput
+                name="email"
+                ngModel
+                type="email"
+                class="form-control my-5"
+                #emailInput="ngModel"
+                required
+              />
+              <label class="text-dark">Email</label>
+              <mdb-error
+                *ngIf="
+                  emailInput.invalid && (emailInput.dirty || emailInput.touched)
+                "
+              >
+                Please enter a valid email
+              </mdb-error>
+            </div>
+
+            <!--Password-->
+            <div class="md-form">
+              <div class="mb-4">
+                <input
+                  mdbInput
+                  name="password"
+                  ngModel
+                  type="password"
+                  class="form-control my-5"
+                  #passwordInput="ngModel"
+                  required
+                  password
+                />
+                <label class="text-dark text-center">Password</label>
+                <mdb-error
+                  *ngIf="
+                    passwordInput.invalid &&
+                    (passwordInput.dirty || passwordInput.touched)
+                  "
+                >
+                  Please enter a password
+                </mdb-error>
+              </div>
+            </div>
+            <!--Button-->
+            <button
+              mdbBtn
+              block="true"
+              class="my-4 blue accent-2"
+              type="submit"
+              *ngIf="!isLoading"
+            >
+              Sign in
+            </button>
+
+            <button
+              mdbBtn
+              block="true"
+              class="my-4 blue accent-2"
+              ype="button"
+              disabled
+              *ngIf="isLoading"
+            >
+              <span
+                class="spinner-grow spinner-grow-sm"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Loading...
+            </button>
+
+            <div
+              *ngIf="error"
+              class="alert alert-danger text-center"
+              role="alert"
+            >
+              {{ error }}
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="col"></div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-sm-4 text-center mt-4">
+        <a [routerLink]="['/forgotpassword']">Forgot password?</a>
+      </div>
+
+      <div class="col"></div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col"></div>
+      <div class="col-sm-4 text-center mt-4">
+        <p>Not received your login credentials? Talk to your employer</p>
+      </div>
+
+      <div class="col"></div>
+    </div>
+  </div>
+</div>

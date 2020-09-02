@@ -1,0 +1,22 @@
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark blue accent-2">
+  <mdb-navbar-brand>
+    <a class="navbar-brand" routerLink="/user">Rota-App</a>
+  </mdb-navbar-brand>
+  <links>
+    <div class="navbar-nav">
+      <a
+        class="nav-item nav-link waves-light"
+        routerLink="/user/profile"
+        routerLinkActive="active"
+        mdbWavesEffect
+        >Profile</a
+      >
+    </div>
+
+    <ul class="navbar-nav ml-auto">
+      <a class="nav-link" style="cursor: pointer;" (click)="logoutUser()"
+        >Logout</a
+      >
+    </ul>
+  </links>
+</mdb-navbar>

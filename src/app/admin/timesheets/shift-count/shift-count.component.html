@@ -1,0 +1,13 @@
+<div class="container-fluid border-bottom border-dark pb-2">
+  <div class="row">
+    <div class="col-sm">
+      Timesheets needing approval: {{ this.getApproval() }}
+    </div>
+    <div class="col-sm">
+      Total shifts - all users: {{ this.getAmount() }}
+    </div>
+    <div class="col-sm">
+      Total hours - all users: {{ this.getShiftCount() }} hours
+    </div>
+  </div>
+</div>

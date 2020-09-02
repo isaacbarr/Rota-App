@@ -1,0 +1,112 @@
+<div class="container-fluid pt-5 pb-5">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10 text-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <button
+                mdbBtn
+                type="button"
+                size="sm"
+                color="primary"
+                mdbWavesEffect
+                (click)="return()"
+              >
+                Return
+              </button>
+            </div>
+            <div class="col-sm-10">
+              <h3>View employee</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-1"></div>
+  </div>
+</div>
+
+<div class="container-fluid pt-3 text-center" *ngIf="user.length === 0">
+ Sorry, a user doesn't not exist for selected id
+</div>
+
+<div class="container-fluid pt-3" *ngIf="user.length > 0">
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+      <div class="btn-toolbar" role="toolbar">
+        <div class="btn-group" role="group" aria-label="First group">
+          <button
+            mdbBtn
+            type="button"
+            color="primary"
+            class="waves-light"
+            mdbWavesEffect
+            (click)="showProfile()"
+          >
+            Profile
+          </button>
+          <button
+            mdbBtn
+            type="button"
+            color="primary"
+            class="waves-light"
+            mdbWavesEffect
+            (click)="showShifts()"
+          >
+            Shifts
+          </button>
+          <button
+            mdbBtn
+            type="button"
+            color="primary"
+            class="waves-light"
+            mdbWavesEffect
+            (click)="showHolidays()"
+          >
+            Holidays
+          </button>
+          <button
+            mdbBtn
+            type="button"
+            color="primary"
+            class="waves-light"
+            mdbWavesEffect
+            (click)="showTraining()"
+          >
+            Training
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+</div>
+
+<div class="container-fluid pt-3 pb-5">
+  <div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8 text-center border border-dark">
+      <div *ngIf="showProfileDiv">
+        <app-view-profile [userId]="userId"></app-view-profile>
+      </div>
+
+      <div *ngIf="showShiftDiv">
+        <app-employee-shifts [userId]="userId"></app-employee-shifts>
+      </div>
+      <div *ngIf="showHolidaysDiv">
+        <app-employee-holiday [userId]="userId"> </app-employee-holiday>
+      </div>
+
+      <div *ngIf="showTrainingDiv">
+        <app-employee-training
+          [userId]="userId"
+          (trainingAdded)="trainingAdded($event)"
+        ></app-employee-training>
+      </div>
+    </div>
+    <div class="col-sm-2"></div>
+  </div>
+</div>

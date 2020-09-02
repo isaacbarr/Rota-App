@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <!----Title-->
+  <div class="row pt-4 pb-4">
+    <div class="col-sm"></div>
+    <div class="col-sm-10 text-center">
+      <h3>Your profile</h3>
+    </div>
+    <div class="col-sm"></div>
+  </div>
+
+  <!---User information-->
+
+  <div class="row pb-3">
+    <div class="col-sm"></div>
+    <div class="col-sm-10">
+      <app-user-information [userId]="userId"></app-user-information>
+      <div class="py-3"></div>
+      <app-user-shifts [userId]="userId"></app-user-shifts>
+      <div class="py-3"></div>
+      <app-user-holidays [userId]="userId"></app-user-holidays>
+      <div class="py-3"></div>
+      <app-user-training [userId]="userId"></app-user-training>
+    </div>
+    <div class="col-sm pb-3"></div>
+  </div>
+</div>

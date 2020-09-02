@@ -1,0 +1,161 @@
+<div class="modal-header">
+  <button
+    type="button"
+    class="close pull-right"
+    aria-label="Close"
+    (click)="closeModal()"
+  >
+    <span aria-hidden="true">×</span>
+  </button>
+  <h4 class="modal-title w-100" id="myModalLabel">Create employee</h4>
+</div>
+
+<form
+  class="text-center border border-light p-2"
+  [formGroup]="employeeForm"
+  (ngSubmit)="onSubmit()"
+>
+  <div class="modal-body">
+    <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+      {{ error }}
+    </div>
+    <div
+      *ngIf="formSubmitted"
+      class="alert alert-success text-center"
+      role="alert"
+    >
+      {{ formSubmitted }}
+    </div>
+    <!---form-->
+
+    <!-- Default form register -->
+
+    <div class="mb-2 md-form">
+      <input type="text" mdbInput class="form-control" formControlName="name" />
+      <label class="text-dark">Name</label>
+      <mdb-error *ngIf="name.invalid && (name.dirty || name.touched)"
+        >Name required</mdb-error
+      >
+    </div>
+
+    <div class="mb-2 md-form">
+      <!-- E-mail -->
+      <input
+        type="email"
+        mdbInput
+        class="form-control"
+        formControlName="email"
+      />
+      <label class="text-dark">Email</label>
+      <mdb-error *ngIf="email.invalid && (email.dirty || email.touched)"
+        >Email required</mdb-error
+      >
+    </div>
+
+    <!-- Phone number -->
+    <div class="mb-2 md-form">
+      <input
+        type="text"
+        mdbInput
+        class="form-control"
+        formControlName="phoneNo"
+      />
+      <label class="text-dark">Phone Number</label>
+      <mdb-error *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)"
+        >Phone Number required</mdb-error
+      >
+    </div>
+
+    <div class="form-row mb-2 md-form">
+      <div class="col">
+        <!-- House Number -->
+
+        <input
+          type="text"
+          mdbInput
+          class="form-control"
+          formControlName="houseNo"
+        />
+        <label class="text-dark">House Number</label>
+        <mdb-error *ngIf="houseNo.invalid && (houseNo.dirty || houseNo.touched)"
+          >House Number required</mdb-error
+        >
+      </div>
+      <div class="col">
+        <!-- Street -->
+
+        <input
+          type="text"
+          mdbInput
+          class="form-control"
+          formControlName="street"
+        />
+        <label class="text-dark">Street</label>
+        <mdb-error *ngIf="street.invalid && (street.dirty || street.touched)"
+          >Street required</mdb-error
+        >
+      </div>
+    </div>
+
+    <div class="form-row mb-2 md-form">
+      <div class="col">
+        <!-- City -->
+
+        <input
+          type="text"
+          mdbInput
+          class="form-control"
+          formControlName="city"
+        />
+        <label class="text-dark">City</label>
+        <mdb-error *ngIf="city.invalid && (city.dirty || city.touched)"
+          >City required</mdb-error
+        >
+      </div>
+      <div class="col">
+        <!-- Postcode -->
+
+        <input
+          type="text"
+          mdbInput
+          class="form-control"
+          formControlName="postcode"
+        />
+        <label class="text-dark">Postcode</label>
+        <mdb-error
+          *ngIf="postcode.invalid && (postcode.dirty || postcode.touched)"
+          >Postcode required</mdb-error
+        >
+      </div>
+    </div>
+
+    <div>
+      <div class="row mb-2 md-form">
+        <div class="col-sm-8 pr-2">
+          Date of birth YYYY-MM-DD
+          <input
+            mdbInput
+            type="date"
+            class="form-control"
+            formControlName="dob"
+          />
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button
+      type="submit"
+      [disabled]="!employeeForm.valid"
+      mdbBtn
+      color="primary"
+      class="relative waves-light"
+      mdbWavesEffect
+    >
+      Create Employee
+    </button>
+  </div>
+</form>

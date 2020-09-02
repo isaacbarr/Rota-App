@@ -1,0 +1,173 @@
+<div>
+  <mdb-card>
+    <div class="text-center py-2">Your shifts</div>
+    <mdb-card-body>
+      <div *ngIf="shifts.length === 0">
+        <h4 class="text-center p-1">No shifts available</h4>
+      </div>
+
+      <div *ngIf="shifts">
+        <!---Today-->
+        <div>
+          <div class="border border-dark text-center section">
+            <h6>Today</h6>
+          </div>
+          <div *ngIf="today === false" class="text-center p-2">
+            <p>You're off today! Have a nice day!</p>
+          </div>
+
+          <div *ngIf="today === true">
+            <div *ngFor="let shift of shifts">
+              <div *ngIf="shift.date === convertDate">
+                <div class="row py-2">
+                  <div class="col-sm">
+                    {{ shift.date | date: "fullDate" }}
+                  </div>
+                  <div class="col-sm">Start time: {{ shift.startTime }}</div>
+                  <div class="col-sm">Finish time: {{ shift.finishTime }}</div>
+                  <div class="col-sm">Area: {{ shift.area | titlecase }}</div>
+                  <div class="col-sm-1">
+                    <button
+                      class="moreInfo"
+                      type="button"
+                      (click)="test.toggle()"
+                      (click)="shiftInfo(shift.startTime, shift.finishTime)"
+                    >
+                      <mdb-icon fas icon="angle-down"></mdb-icon>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="row" mdbCollapse #test="bs-collapse">
+                  <div class="col-sm">Total hours {{ shiftHours }}</div>
+                  <div class="col-sm"></div>
+                  <div class="col-sm"></div>
+                  <div class="col-sm"></div>
+                  <div class="col-sm"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Future-->
+        <div>
+          <div class="border border-dark text-center section">
+            <h6>Future</h6>
+          </div>
+          <div *ngFor="let shift of shifts">
+            <div *ngIf="shift.date > convertDate">
+              <div class="row py-2">
+                <div class="col">
+                  {{ shift.date | date: "fullDate" }}
+                </div>
+                <div class="col-sm">Start time: {{ shift.startTime }}</div>
+                <div class="col-sm">Finish time: {{ shift.finishTime }}</div>
+                <div class="col-sm">Area: {{ shift.area | titlecase }}</div>
+                <div class="col-sm-1">
+                  <button
+                    class="moreInfo"
+                    type="button"
+                    (click)="test.toggle()"
+                    (click)="shiftInfo(shift.startTime, shift.finishTime)"
+                  >
+                    <mdb-icon fas icon="angle-down"></mdb-icon>
+                  </button>
+                </div>
+              </div>
+
+              <div class="row" mdbCollapse #test="bs-collapse">
+                <div class="col-sm">Total hours: {{ shiftHours }}</div>
+                <div class="col-sm"></div>
+                <div class="col-sm"></div>
+                <div class="col-sm">Estimated Pay: £{{ shiftPay }}</div>
+                <div class="col-sm"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--Past-->
+        <div>
+          <div class="border border-dark text-center section">
+            <h6>Past</h6>
+          </div>
+
+          <div class="row p-2">
+            <div class="col text-right">
+              <button
+                type="button"
+                mdbBtn
+                color="link"
+                (click)="basicModal.show()"
+              >
+                View all past shifts
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mdb-card-body>
+  </mdb-card>
+</div>
+
+<!---Modal-->
+<div
+  mdbModal
+  style="overflow-y: auto;"
+  #basicModal="mdbModal"
+  class="modal fade right"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myBasicModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-full-height modal-right" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="basicModal.hide()"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">
+          All shifts
+        </h4>
+      </div>
+
+      <div *ngFor="let shift of shifts">
+        <div *ngIf="shift.date < convertDate">
+          <mdb-card class="p-2">
+            <mdb-card-body>
+              <mdb-card-title class="pb-2">
+                Date: {{ shift.date }}
+              </mdb-card-title>
+
+              <div class="row pb-2">
+                <div class="col">Start Time: {{ shift.startTime }}</div>
+                <div class="col">Finish Time: {{ shift.finishTime }}</div>
+              </div>
+              <div class="row text-center pb-2">
+                <div class="col">Area: {{ shift.area | titlecase }}</div>
+              </div>
+              <div class="">
+                <div class="">
+                  Approved:
+                  <div class="" *ngIf="shift.approved === true">
+                    <mdb-icon class="green-text" fas icon="check"></mdb-icon>
+                  </div>
+                  <div class="" *ngIf="shift.approved != true">
+                    <mdb-icon class="red-text" fas icon="times"></mdb-icon>
+                  </div>
+                </div>
+              </div>
+            </mdb-card-body>
+          </mdb-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

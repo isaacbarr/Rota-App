@@ -1,0 +1,40 @@
+<div *ngIf="!mobile">
+  <app-schedule-controls
+    [selected]="selectedDay"
+    (move)="onChange($event)"
+  ></app-schedule-controls>
+
+  <app-schedule-days
+    [selected]="selectedDayIndex"
+    (select)="selectDay($event)"
+  ></app-schedule-days>
+
+  <div cdkDropListGroup>
+    <div class="row m-2 pt-4">
+      <div class="col-2">
+        <app-users-schedule [selectedDate]="selectedDay"></app-users-schedule>
+      </div>
+
+      <div class="col-10">
+        <app-area-error-handler class="text-center"></app-area-error-handler>
+        <app-manager-area [selectedDate]="selectedDay"></app-manager-area>
+        <div class="pb-3"></div>
+        <app-bar-area [selectedDate]="selectedDay"></app-bar-area>
+        <div class="pb-3"></div>
+        <app-floor-area [selectedDate]="selectedDay"></app-floor-area>
+        <div class="pb-3"></div>
+        <app-chef-area [selectedDate]="selectedDay"></app-chef-area>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="mobile">
+  <div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6 p-4">
+      <h4 class="text-center ">Sorry, this feature is not available on this screen size</h4>
+    </div>
+    <div class="col-sm-3"></div>
+  </div>
+</div>

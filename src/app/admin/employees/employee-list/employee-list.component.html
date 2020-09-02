@@ -1,0 +1,64 @@
+
+
+<div class="container" *ngIf="!employees">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-12 text-center pt-5">
+      <p>No employees yet</p>
+    </div>
+  </div>
+  <div class="col"></div>
+</div>
+
+<div class="container pt-4 pb-3" *ngIf="employees.length > 0 ">
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-12">
+      <table mdbTable class="border" striped="true">
+        <thead>
+          <tr>
+            <th scope="col"><h6>Employees:</h6> Total: {{total}}</th>
+            <th scope="col" class="text-right">
+              <button
+                type="button"
+                mdbBtn
+                color="primary"
+                class="relative waves-light"
+                (click)="openModal()"
+                mdbWavesEffect
+              >
+                Create Employee
+              </button>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let user of employees">
+            <td>
+              <img
+                src="../../../../assets/avatardefault_92824.png"
+                alt="user-picture"
+                class="img-fluid rounded-circle z-depth-0 avatar"
+              />
+
+              {{ user.name }}
+            </td>
+            <td class="text-right">
+              <button
+                mdbBtn
+                type="button"
+                color="link"
+                outline="true"
+                (click)="viewEmployee(user)"
+                size="sm"
+              >
+                View
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col"></div>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+
+  <div
+    *ngIf="userExists === true"
+    class="alert alert-warning alert-dismissible fade show"
+    role="alert"
+  >
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeAlert()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h5 class="">User is already allocated to work this day</h5>
+  </div>
+
+  <div
+    *ngIf="userHoliday === true"
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert"
+  >
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeAlert()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h5 class="">User has requested this day off</h5>
+  </div>

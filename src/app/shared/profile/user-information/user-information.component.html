@@ -1,0 +1,412 @@
+<mdb-card>
+  <div class="text-right pr-3 pt-2">
+    <button
+      type="button"
+      mdbBtn
+      color="primary"
+      size="sm"
+      (click)="basicModal.show()"
+      (click)="reset()"
+      mdbWavesEffect
+    >
+      Edit
+    </button>
+  </div>
+  <mdb-card-body *ngFor="let user of user">
+    <table mdbTable borderless="true">
+      <tbody>
+        <tr mdbTableCol>
+          <th scope="row">Name</th>
+
+          <td>
+            {{ user.name }}
+          </td>
+        </tr>
+        <tr mdbTableCol>
+          <th scope="row">Email</th>
+
+          <td>
+            {{ user.email }}
+          </td>
+        </tr>
+        <tr mdbTableCol>
+          <th scope="row">Phone Number</th>
+
+          <td>
+            {{ user.phoneNo }}
+          </td>
+        </tr>
+        <tr mdbTableCol>
+          <th scope="row">Address</th>
+          <td>
+            {{ user.Address.houseNo }} {{ user.Address.street }},
+            {{ user.Address.city }},
+            {{ user.Address.postcode }}
+          </td>
+        </tr>
+        <tr mdbTableCol>
+          <th scope="row">Date of birth</th>
+
+          <td class="text-left">{{ user.dob | date: "mediumDate" }}</td>
+        </tr>
+        <tr mdbTableCol>
+          <th scope="row">Pay per hour (£)</th>
+          <td>{{ user.pay }}</td>
+        </tr>
+        <tr mdbTableCol>
+          <th scope="row">Password</th>
+
+          <td>
+            <button
+              type="button"
+              mdbBtn
+              color="link"
+              size="sm"
+              (click)="passModal.show()"
+
+              mdbWavesEffect
+            >
+              Edit
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </mdb-card-body>
+</mdb-card>
+
+<!---Edit Modal-->
+
+<div
+  mdbModal
+  #basicModal="mdbModal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myBasicModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="basicModal.hide()"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Edit your profile</h4>
+      </div>
+      <div class="modal-body">
+        <!-- form start-->
+
+        <form (submit)="onSubmit(editForm)" #editForm="ngForm">
+          <div
+            *ngIf="error"
+            class="alert alert-danger text-center"
+            role="alert"
+          >
+            {{ error }}
+          </div>
+
+          <div
+          *ngIf="informationUpdated"
+          class="alert alert-success text-center"
+          role="alert"
+        >
+          {{successMessage}}
+        </div>
+
+          <table
+            mdbTable
+            borderless="true"
+            class="pt-5"
+            *ngFor="let user of user"
+          >
+            <tbody>
+              <tr mdbTableCol>
+                <th scope="row">Name</th>
+
+                <td>
+                  <input
+                    type="text"
+                    mdbInput
+                    [(ngModel)]="user.name"
+                    name="name"
+                    class="form-control"
+                    #name="ngModel"
+                    required
+                  />
+                  <div
+                    *ngIf="name.invalid && (name.dirty || name.touched)"
+                    class="alert alert-danger"
+                  >
+                    <div *ngIf="name.errors.required">
+                      Name is required.
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr mdbTableCol>
+                <th scope="row">Email</th>
+
+                <td>
+                  <input
+                    type="text"
+                    mdbInput
+                    [(ngModel)]="user.email"
+                    name="email"
+                    class="form-control"
+                    #email="ngModel"
+                    required
+                    email
+                  />
+                  <div
+                    *ngIf="email.invalid && (email.dirty || email.touched)"
+                    class="alert alert-danger"
+                  >
+                    <div *ngIf="email.errors.required">
+                      Email is required.
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr mdbTableCol>
+                <th scope="row">Phone Number</th>
+
+                <td>
+                  <input
+                    type="tel"
+                    name="phoneNo"
+                    mdbInput
+                    class="form-control"
+                    [(ngModel)]="user.phoneNo"
+                    #phoneNo="ngModel"
+                    required
+                  />
+                  <div
+                    *ngIf="
+                      phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)
+                    "
+                    class="alert alert-danger"
+                  >
+                    <div *ngIf="phoneNo.errors.required">
+                      Phone number is required.
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr mdbTableCol>
+                <th scope="row">Address</th>
+
+                <td>
+                  <div class="row">
+                    <div class="col">
+                      <!-- House Number -->
+                      <label> Number </label>
+                      <input
+                        type="number"
+                        name="houseNo"
+                        mdbInput
+                        class="form-control"
+                        [(ngModel)]="user.Address.houseNo"
+                        #houseNo="ngModel"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          houseNo.invalid && (houseNo.dirty || houseNo.touched)
+                        "
+                        class="alert alert-danger"
+                      >
+                        <div *ngIf="houseNo.errors.required">
+                          House number is required.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label>Street</label>
+                      <input
+                        type="text"
+                        name="street"
+                        mdbInput
+                        class="form-control"
+                        [(ngModel)]="user.Address.street"
+                        #street="ngModel"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          street.invalid && (street.dirty || street.touched)
+                        "
+                        class="alert alert-danger"
+                      >
+                        <div *ngIf="street.errors.required">
+                          Street is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row pt-2">
+                    <div class="col">
+                      <label> City </label>
+                      <input
+                        type="text"
+                        name="city"
+                        mdbInput
+                        class="form-control"
+                        [(ngModel)]="user.Address.city"
+                        #city="ngModel"
+                        required
+                      />
+                      <div
+                        *ngIf="city.invalid && (city.dirty || city.touched)"
+                        class="alert alert-danger"
+                      >
+                        <div *ngIf="city.errors.required">
+                          City is required.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <label> Postcode </label>
+                      <input
+                        type="text"
+                        mdbInput
+                        name="postcode"
+                        class="form-control"
+                        [(ngModel)]="user.Address.postcode"
+                        #postcode="ngModel"
+                        required
+                      />
+                      <div
+                        *ngIf="
+                          postcode.invalid &&
+                          (postcode.dirty || postcode.touched)
+                        "
+                        class="alert alert-danger"
+                      >
+                        <div *ngIf="postcode.errors.required">
+                          Postcode is required.
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!--- form end-->
+
+          <div class="modal-footer">
+            <button
+              mdbBtn
+              [disabled]="!editForm.touched || editForm.invalid"
+              (submit)="onSubmit(editForm)"
+              class="my-4 blue accent-2 text-white"
+              mdbWavesEffect
+              type="submit"
+            >
+              Save changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  mdbModal
+  #passModal="mdbModal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myBasicModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="passModal.hide()"
+          (click)="reset()"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Update password</h4>
+      </div>
+      <div class="modal-body">
+        <div
+                  *ngIf="informationUpdated"
+                  class="alert alert-success text-center"
+                  role="alert"
+                >
+                  {{successMessage}}
+                </div>
+                <div
+                  *ngIf="error"
+                  class="alert alert-danger text-center"
+                  role="alert"
+                >
+                 {{error}}
+                </div>
+        <form (submit)="passUpdate(passForm)" #passForm="ngForm">
+          <table mdbTable borderless="true">
+            <tbody>
+              <tr mdbTableCol>
+
+                <th scope="row">Current:</th>
+
+                <td>
+                  <input
+                    type="password"
+                    name="current"
+                    mdbInput
+                    class="form-control"
+                    ngModel
+                    #current="ngModel"
+                    required
+                  />
+                </td>
+              </tr>
+              <tr mdbTableCol>
+                <th scope="row">Update:</th>
+
+                <td>
+                  <input
+                    type="password"
+                    name="update"
+                    mdbInput
+                    class="form-control"
+                    ngModel
+                    #update="ngModel"
+                    required
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-footer">
+            <button
+              mdbBtn
+              (submit)="passUpdate(passForm)"
+              class="my-4 blue accent-2 text-white"
+              mdbWavesEffect
+              type="submit"
+            >
+              Save password
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

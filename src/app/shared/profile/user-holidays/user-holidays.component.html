@@ -1,0 +1,175 @@
+<mdb-card>
+  <mdb-card-body>
+<div class="text-center p-2">  <h6>Your unavailability </h6> </div>
+    <div>
+      <div class="text-left pt-3 pb-3">
+        <p>Total holiday count : {{ holidays.length }} day(s)</p>
+      </div>
+
+      <div class="alert alert-warning text-center" *ngIf="error" role="alert">
+        {{ error }}
+        <button
+          type="button"
+          class="close"
+          aria-label="Close"
+          (click)="closeAlert()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="py-2 text-right">
+        <button class="moreInfo" (click)="h.toggle()">
+          <mdb-icon fas icon="plus"></mdb-icon>
+        </button>
+      </div>
+      <form (submit)="onSubmit(addHoliday)" #addHoliday="ngForm">
+        <div class="" mdbCollapse #h="bs-collapse">
+          <div class="text-center pb-2">
+            Add unavailability
+          </div>
+          <div class="row text-center">
+            <div class="col-sm"></div>
+            <div class="col-sm">
+              <input
+                mdbInput
+                type="date"
+                class="form-control"
+                name="date"
+                class="form-control"
+                ngModel
+                #date="ngModel"
+                required
+              />
+            </div>
+
+            <div class="col-sm">
+              <button
+                mdbBtn
+                [disabled]="!addHoliday.touched || addHoliday.invalid"
+                (submit)="onSubmit(addHoliday)"
+                class="blue accent-2 text-white"
+                mdbWavesEffect
+                size="sm"
+                type="submit"
+              >
+                Add Holiday
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!---Today-->
+      <div *ngFor="let holiday of holidays">
+        <div *ngIf="holiday.date === convertDate">
+          <div class="border border-dark text-center section">
+            <h6>Today</h6>
+          </div>
+
+          <div *ngIf="today === false" class="text-center p-2">
+            <p>You're unavailable today</p>
+          </div>
+        </div>
+      </div>
+
+      <!---Future-->
+
+      <div class="border border-dark text-center section">
+        <h6>Future</h6>
+      </div>
+      <div *ngIf="futureHolidays === true" class="text-center p-2">
+        <p>You have no future holidays</p>
+      </div>
+      <div *ngIf="futureHolidays === false">
+        <div *ngFor="let holiday of holidays">
+          <div *ngIf="holiday.date > convertDate">
+            <div class="row py-2 text-center">
+              <div class="col">
+                {{ holiday.date | date: "fullDate" }}
+                <div class="col-sm">
+                  <button
+                    class="moreInfo"
+                    type="button"
+                    (click)="removeHoliday(holiday.id)"
+                  >
+                    <mdb-icon far icon="trash-alt" class="red-text"></mdb-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!---Past-->
+      <div class="border border-dark text-center section">
+        <h6>Past</h6>
+      </div>
+      <div *ngIf="pastHolidays === true" class="text-center p-2">
+        <p>The selected user has no past holidays</p>
+      </div>
+      <div *ngIf="pastHolidays === false">
+        <div *ngFor="let holiday of holidays.slice(0,7)">
+          <div *ngIf="holiday.date < convertDate">
+            <div class="row py-2 text-center">
+              <div class="col">
+                {{ holiday.date | date: "fullDate" }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mdb-card-body>
+  <div class="row p-2">
+    <div class="col text-right">
+      <button type="button" mdbBtn color="link" (click)="basicModal.show()">View all holidays</button>
+    </div>
+  </div>
+</mdb-card>
+
+
+
+<!---Modal-->
+<div
+mdbModal
+style="overflow-y: auto;"
+#basicModal="mdbModal"
+class="modal fade right"
+tabindex="-1"
+role="dialog"
+aria-labelledby="myBasicModalLabel"
+aria-hidden="true"
+>
+<div class="modal-dialog modal-full-height modal-right" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button
+        type="button"
+        class="close pull-right"
+        aria-label="Close"
+        (click)="basicModal.hide()"
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+      <h4 class="modal-title w-100" id="myModalLabel">
+      All holidays
+      </h4>
+    </div>
+
+    <div *ngFor="let holiday of holidays">
+      <div>
+        <mdb-card class="p-2">
+          <mdb-card-body>
+            <mdb-card-title class="pb-2">
+              Date: {{ holiday.date | date: "mediumDate" }}
+            </mdb-card-title>
+          </mdb-card-body>
+        </mdb-card>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+

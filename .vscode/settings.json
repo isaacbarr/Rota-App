@@ -1,0 +1,12 @@
+{
+    "workbench.colorTheme": "Default Light+",
+    "workbench.iconTheme": "material-icon-theme",
+    "cSpell.words": [
+        "contenteditable",
+        "daterange",
+        "forgotpassword",
+        "titlecase",
+        "updateuserandrole"
+    ],
+    "git.ignoreLimitWarning": true
+}

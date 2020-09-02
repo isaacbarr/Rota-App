@@ -1,0 +1,158 @@
+<form #form="ngForm">
+  <div class="col px-2 border border-dark text-light section">
+    <h6>Floor</h6>
+  </div>
+
+  <div
+    *ngIf="floorShifts.length === 0 && floorList.length === 0"
+    class="text-center pt-2"
+  >
+    No allocated shifts for selected date
+  </div>
+
+  <div *ngIf="floorShifts">
+    <div *ngFor="let shift of floorShifts">
+      <div *ngIf="shift.area === 'floor'">
+        <mdb-card class="py-2">
+          <div class="row">
+            <div class="col-sm text-center">
+              {{ shift.User.name }}
+            </div>
+            <div class="col-sm-3 text-center">
+              Start time:
+
+              <input
+                mdbInput
+                type="time"
+                *ngIf="edit && shiftId === shift.id"
+                name="startTime"
+                [(ngModel)]="shift.startTime"
+                #startTime="ngModel"
+                required
+              />
+
+              <div *ngIf="!hideTime">{{ shift.startTime }}</div>
+            </div>
+            <div class="col-sm-3 text-center">
+              Finish time:
+              <input
+                *ngIf="edit && shiftId === shift.id"
+                mdbInput
+                type="time"
+                name="finishTime"
+                [(ngModel)]="shift.finishTime"
+                #finishTime="ngModel"
+                required
+              />
+
+              <div *ngIf="!hideTime">{{ shift.finishTime }}</div>
+            </div>
+            <div class="col-sm-4">
+              <button
+                (click)="deleteShift(shift.id)"
+                size="sm"
+                mdbBtn
+                color="danger"
+                mdbWavesEffect
+              >
+                Remove
+              </button>
+
+              <button
+                *ngIf="edit && shiftId === shift.id"
+                (click)="editShift(form, shift.id)"
+                size="sm"
+                mdbBtn
+                color="primary"
+                mdbWavesEffect
+              >
+                Save
+              </button>
+
+              <button
+                (click)="editButton(shift.id)"
+                size="sm"
+                mdbBtn
+                color="light"
+                mdbWavesEffect
+              >
+                Edit
+              </button>
+            </div>
+          </div>
+        </mdb-card>
+      </div>
+    </div>
+  </div>
+  <div
+    class="py-1"
+    cdkDropList
+    #monManager="cdkDropList"
+    [cdkDropListData]="floorList"
+    (cdkDropListDropped)="drop($event)"
+  >
+    <div class="" *ngFor="let user of floorList">
+      <div>
+        <mdb-card class="pb-5 pt-1">
+          <div class="row">
+            <div class="col-sm-2 text-center">
+              {{ user.name }}
+            </div>
+
+            <div class="col-sm-3 text-center">
+              Start time
+
+              <input
+                mdbInput
+                type="time"
+                name="startTime"
+                ngModel
+                #startTime="ngModel"
+                required
+              />
+
+              <div *ngIf="startTime.invalid" class="text-center time_error">
+                Enter a start time
+              </div>
+            </div>
+
+            <div class="col-sm-3 text-center">
+              Finish time
+              <input
+                mdbInput
+                type="time"
+                name="finishTime"
+                ngModel
+                #finishTime="ngModel"
+                required
+              />
+              <div *ngIf="finishTime.invalid" class="text-center time_error">
+                Enter a finish time
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <button
+                (click)="remove(user.id)"
+                size="sm"
+                mdbBtn
+                color="danger"
+                mdbWavesEffect
+              >
+                Remove
+              </button>
+              <button
+                (click)="submitShift(user.id, form)"
+                size="sm"
+                mdbBtn
+                color="primary"
+                mdbWavesEffect
+              >
+                Allocate Shift
+              </button>
+            </div>
+          </div>
+        </mdb-card>
+      </div>
+    </div>
+  </div>
+</form>

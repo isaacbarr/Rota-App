@@ -1,0 +1,259 @@
+<div *ngIf="training.length === 0" class="pt-2">
+  The select user currently has no training
+</div>
+
+<div class="pt-2 pb-2 border-bottom border-light">
+  <div class="row">
+    <div class="col-sm-3 text-left">Areas:</div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3">
+      <button
+        type="button"
+        size="sm"
+        (click)="addAreaModal.show()"
+        mdbBtn
+        color="primary"
+        mdbWavesEffect
+      >
+        Add training area
+      </button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="training.length > 0" class="p-2">
+  <div class="row pt-2 pb-2">
+    <div class="col-sm-6 text-left">Manager</div>
+
+    <div *ngFor="let t of training">
+      <div class="col-sm-4" *ngIf="t.training === 'manager'">
+        <mdb-icon class="green-text" fas icon="check"></mdb-icon>
+      </div>
+    </div>
+
+    <div class="col-sm-1"></div>
+  </div>
+
+  <div class="row pb-2">
+    <div class="col-sm-6 text-left">Bar</div>
+
+    <div *ngFor="let t of training">
+      <div class="col-sm-4" *ngIf="t.training === 'bar'">
+        <mdb-icon class="green-text" fas icon="check"></mdb-icon>
+      </div>
+    </div>
+
+    <div class="col-sm-1"></div>
+  </div>
+
+  <div class="row pb-2">
+    <div class="col-sm-6 text-left">Floor</div>
+
+    <div *ngFor="let t of training">
+      <div class="col-sm-4" *ngIf="t.training === 'floor'">
+        <mdb-icon class="green-text" fas icon="check"></mdb-icon>
+      </div>
+    </div>
+
+    <div class="col-sm-1"></div>
+  </div>
+
+  <div class="row pb-2">
+    <div class="col-sm-6 text-left">Chef</div>
+
+    <div *ngFor="let t of training">
+      <div class="col-sm-4" *ngIf="t.training === 'chef'">
+        <mdb-icon class="green-text" fas icon="check"></mdb-icon>
+      </div>
+    </div>
+
+    <div class="col-sm-1"></div>
+  </div>
+</div>
+
+<!--Other training areas-->
+<div class="pt-2 pb-2 border-bottom border-light text-left">
+  <div class="row">
+    <div class="col-sm-3 text-left">Other training</div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3"></div>
+    <div class="col-sm-3">
+      <button
+        type="button"
+        size="sm"
+        (click)="addTrainingModal.show()"
+        mdbBtn
+        color="primary"
+        mdbWavesEffect
+      >
+        Add training:
+      </button>
+    </div>
+  </div>
+</div>
+<div class="row pb-2 pt-2 text-left" *ngFor="let t of otherTraining">
+  <div
+    *ngIf="
+      t.training != 'manager' &&
+      t.training != 'bar' &&
+      t.training != 'floor' &&
+      t.training != 'chef'
+    "
+  >
+    <div class="col-sm">{{ t.training }}</div>
+    <div class="col-sm"></div>
+    <div class="col-sm">
+      Date Completed: {{ t.dateCompleted | date: "mediumDate" }}
+    </div>
+  </div>
+</div>
+
+<div class="row pb-2 pt-2 text-left"></div>
+
+<!--Add area training modal-->
+<div
+  mdbModal
+  #addAreaModal="mdbModal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myBasicModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="addAreaModal.hide()"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Add area for user</h4>
+      </div>
+      <form (submit)="addArea(addAreaForm)" #addAreaForm="ngForm">
+        <div class="modal-body">
+          <div *ngIf="error">{{ error }}</div>
+          <p class="pb-2 pt-2">Please select from drop down list</p>
+
+          <input list="area" ngModel name="area" #area="ngModel" required />
+          <datalist id="area">
+            <option value="manager">
+              Manager
+            </option>
+            <option value="bar" name="bar"> Bar</option>
+            <option value="floor"> </option>
+            <option value="chef"> </option>
+          </datalist>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            mdbBtn
+            color="secondary"
+            class="waves-light"
+            aria-label="Close"
+            (click)="addAreaModal.hide()"
+            mdbWavesEffect
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            mdbBtn
+            color="primary"
+            class="relative waves-light"
+            mdbWavesEffect
+          >
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--Add other training modal-->
+<div
+  mdbModal
+  #addTrainingModal="mdbModal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="myBasicModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button
+          type="button"
+          class="close pull-right"
+          aria-label="Close"
+          (click)="addTrainingModal.hide()"
+        >
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Add area for user</h4>
+      </div>
+      <form
+        (submit)="addOtherTrainingArea(addTrainingForm)"
+        #addTrainingForm="ngForm"
+      >
+        <div class="modal-body">
+          <div *ngIf="error">{{ error }}</div>
+
+          <label for="train" class="pb-2"> Training/Qualification:</label>
+          <input
+            type="text"
+            id="train"
+            ngModel
+            name="train"
+            #train="ngModel"
+            required
+            placeholder="e.g. first-aid"
+          />
+
+          <div>
+            <label for="date" class="pb-2"> Date completed:</label>
+
+            <input
+              id="date"
+              type="date"
+              ngModel
+              name="date"
+              #date="ngModel"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            type="button"
+            mdbBtn
+            color="secondary"
+            class="waves-light"
+            aria-label="Close"
+            (click)="addTrainingModal.hide()"
+            mdbWavesEffect
+          >
+            Close
+          </button>
+          <button
+            type="submit"
+            mdbBtn
+            color="primary"
+            class="relative waves-light"
+            mdbWavesEffect
+          >
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<mdb-card>
+  <mdb-card-body>
+    <div *ngIf="training.length === 0" class="pt-2">
+      You currently have no training available
+    </div>
+
+    <div
+      class="pt-2 pb-2 "
+      *ngIf="training.length > 0"
+    >
+      <h6 class="text-center border-bottom border-light pb-2 ">Your training</h6>
+      <div class="text-center" *ngFor="let t of training">
+        <div class="text-center pt-2 pb-1">{{ t.training | titlecase }}</div>
+      </div>
+    </div>
+  </mdb-card-body>
+</mdb-card>
