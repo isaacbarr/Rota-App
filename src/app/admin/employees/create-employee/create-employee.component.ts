@@ -33,11 +33,12 @@ export class CreateEmployeeComponent implements OnInit {
       street: ["", [Validators.required]],
       city: ["", [Validators.required]],
       postcode: ["", [Validators.required]],
-      dob: [""],
+      dob: ["", Validators.required],
     });
   }
 
   onSubmit() {
+    //create employee method call
     this.employeeService.createEmployee(this.employeeForm.value).subscribe(
       (user) => {
         this.user = user;
