@@ -100,7 +100,7 @@ const createUser = (req, res, next) => {
       //generate random password for user
       var generatedPassword = generator.generate({
         //length of password
-        length: 10,
+        length: 20,
         //allow numbers
         numbers: true,
       });
