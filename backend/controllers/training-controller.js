@@ -2,6 +2,7 @@ const HttpError = require("../models/http-error");
 
 const Training = require("../models/training");
 
+//get all training
 const getAll = (req, res, next) => {
   Training.findAll()
     .then((result) => {
@@ -18,6 +19,7 @@ const getAll = (req, res, next) => {
     });
 };
 
+//get training for user id
 const getTrainingByUserId = (req, res, next) => {
   Training.findAll({ where: { UserId: req.params.id } })
     .then((result) => {
@@ -34,6 +36,7 @@ const getTrainingByUserId = (req, res, next) => {
     });
 };
 
+//add training for user
 const addTrainingForUser = async (req, res, next) => {
   try {
     const findTraining = await Training.findOne({
@@ -45,7 +48,7 @@ const addTrainingForUser = async (req, res, next) => {
 
     if (findTraining) {
       const error = new HttpError(
-        "training for this user has already been recorded",
+        "Training for this user has already been recorded",
         401
       );
       return next(error);

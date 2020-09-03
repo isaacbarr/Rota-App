@@ -13,8 +13,7 @@ const Holidays = require("../models/holiday");
 const Shifts = require("../models/shifts");
 const Training = require("../models/training");
 
-
-
+//get all users
 const getUsers = async (req, res, next) => {
   let users;
   try {
@@ -28,6 +27,7 @@ const getUsers = async (req, res, next) => {
   return res.json(users);
 };
 
+//get users details by id
 const getUserDetailsById = (req, res, next) => {
   User.findAll({
     include: [Address, Training],
@@ -46,6 +46,7 @@ const getUserDetailsById = (req, res, next) => {
     });
 };
 
+//get user by id
 const getUserById = (req, res, next) => {
   User.findAll({
     include: [Address, Shifts, Holidays],
@@ -63,8 +64,7 @@ const getUserById = (req, res, next) => {
     });
 };
 
-
-
+//create user
 const createUser = (req, res, next) => {
   //check if any errors in form exist
   const errors = validationResult(req);
@@ -171,6 +171,7 @@ const createUser = (req, res, next) => {
   });
 };
 
+//log in user
 const login = (req, res, next) => {
   let fetchedUser;
   //Find a user where email === email input from user
@@ -219,6 +220,7 @@ const login = (req, res, next) => {
     });
 };
 
+//update user and user role
 const updateUserAndRole = async (req, res, next) => {
   const {
     name,
@@ -276,6 +278,7 @@ const updateUserAndRole = async (req, res, next) => {
   }
 };
 
+//update user
 const updateUser = async (req, res, next) => {
   const {
     name,
@@ -330,6 +333,7 @@ const updateUser = async (req, res, next) => {
   }
 };
 
+//update user pass
 const updateUserPass = (req, res, next) => {
   let fetchedUser;
 
@@ -344,7 +348,7 @@ const updateUserPass = (req, res, next) => {
       }
 
       fetchedUser = user;
-
+      //check current pass and user pass match
       return bcrypt.compare(req.body.currentPass, user.password);
     })
     .then((result) => {
@@ -356,6 +360,7 @@ const updateUserPass = (req, res, next) => {
         return next(error);
       }
 
+      //hash updated pass word
       bcrypt.hash(req.body.updatedPass, 10).then((hash) => {
         User.update({ password: hash }, { where: { id: req.params.id } }).then(
           (result) => {
@@ -364,7 +369,7 @@ const updateUserPass = (req, res, next) => {
               return next(error);
             }
 
-            return res.status(200).json({ message: "password updated" });
+            return res.status(200).json({ message: "Password updated" });
           }
         );
       });
@@ -376,10 +381,13 @@ const updateUserPass = (req, res, next) => {
     });
 };
 
+//reset pass
 const resetUserPass = (req, res, next) => {
   let fetchedUser;
 
   User.findOne({
+    //check multiple input match records
+    //in database - ensure security
     where: {
       [Op.and]: [
         { email: req.body.email },
@@ -410,7 +418,7 @@ const resetUserPass = (req, res, next) => {
             return next(error);
           }
 
-          return res.status(200).json({ message: "password updated" });
+          return res.status(200).json({ message: "Password updated" });
         });
       });
     })
@@ -421,6 +429,7 @@ const resetUserPass = (req, res, next) => {
     });
 };
 
+//delete user
 const deleteUser = (req, res, next) => {
   const userId = req.params.id;
   User.destroy({ where: { id: userId } })
@@ -433,6 +442,7 @@ const deleteUser = (req, res, next) => {
     });
 };
 
+//export all methods to be use in routes
 exports.createUser = createUser;
 exports.getUserDetailsById = getUserDetailsById;
 exports.getUserById = getUserById;

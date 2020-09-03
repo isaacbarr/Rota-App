@@ -3,6 +3,7 @@ const Shifts = require("../models/shifts");
 const User = require("../models/user");
 const { Op } = require("sequelize");
 
+// get all shifts for all users
 const getAllShifts = (req, res, next) => {
   Shifts.findAll({ where: { date: req.params.date }, include: User })
     .then((shifts) => {
@@ -17,6 +18,7 @@ const getAllShifts = (req, res, next) => {
     });
 };
 
+//get shifts by user id
 const getShiftsByUserId = (req, res, next) => {
   Shifts.findAll({
     where: { UserId: req.params.id },
@@ -34,7 +36,7 @@ const getShiftsByUserId = (req, res, next) => {
     });
 };
 
-
+//create shift for user
 const insertShift = async (req, res, next) => {
   const { date, startTime, finishTime, userId, area } = req.body;
 
@@ -69,6 +71,7 @@ const insertShift = async (req, res, next) => {
   }
 };
 
+//remove shift by id
 const deleteShiftById = (req, res, next) => {
   Shifts.destroy({ where: { id: req.params.shiftId } })
     .then((result) => {
@@ -80,6 +83,7 @@ const deleteShiftById = (req, res, next) => {
     });
 };
 
+//edit shift by shift id
 const editShiftById = async (req, res, next) => {
   const { startTime, finishTime } = req.body;
 
@@ -110,6 +114,7 @@ const editShiftById = async (req, res, next) => {
   }
 };
 
+//find shifts for date range
 const getDateRange = (req, res, next) => {
   const { startWeek, endWeek } = req.body;
 
@@ -139,6 +144,7 @@ const getDateRange = (req, res, next) => {
     });
 };
 
+//date range for all employees
 const getDateRangeForAllEmployees = (req, res, next) => {
   const { startWeek, endWeek } = req.body;
 
@@ -163,6 +169,7 @@ const getDateRangeForAllEmployees = (req, res, next) => {
     });
 };
 
+//approve shift
 const approveShift = async (req, res, next) => {
   try {
     const approvedShift = await Shifts.update(
