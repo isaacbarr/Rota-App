@@ -7,11 +7,9 @@ import {
   OnChanges,
 } from "@angular/core";
 
-
 @Component({
   selector: "app-schedule-calendar",
   templateUrl: "./schedule-calendar.component.html",
-
 })
 export class ScheduleCalendarComponent implements OnInit, OnChanges {
   selectedDay: Date;
@@ -29,9 +27,7 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
   @Output()
   change = new EventEmitter<Date>();
 
-  constructor(
-
-  ) {}
+  constructor() {}
 
   ngOnInit() {
     if (window.screen.width <= 600) {
@@ -68,15 +64,11 @@ export class ScheduleCalendarComponent implements OnInit, OnChanges {
   ngOnChanges() {
     this.selectedDayIndex = this.getToday(this.selectedDay);
     this.selectedWeek = this.getStartOfWeek(new Date(this.selectedDay));
-
   }
 
   selectDay(index: number) {
     const selectedDay = new Date(this.selectedWeek);
     selectedDay.setDate(selectedDay.getDate() + index);
     this.change.emit(selectedDay);
-
   }
-
-
 }

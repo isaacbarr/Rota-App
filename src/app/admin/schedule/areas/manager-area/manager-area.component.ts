@@ -50,6 +50,7 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
   selectedDay: Date;
 
   convertDate;
+  error: string = '';
 
   set date(date: Date) {
     this.selectedDay = new Date(date.getTime());
@@ -57,15 +58,21 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
 
   constructor(
     private scheduleService: ScheduleService,
-
     private employeeService: EmployeeService,
     private holidayService: HolidayService
   ) {}
 
   ngOnChanges() {
+    //convert date so that db can be queried
     this.convertDate = this.convert(this.setDate);
+
+    //get shifts for updated date
     this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
+      //set shifts = data
       this.shifts = data
+    }, err => {
+      //error
+      this.error = err
     });
 
     this.holidayService
