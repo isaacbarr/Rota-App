@@ -164,10 +164,15 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
       userId = userData.id;
     });
 
+    //if user has requested holiday
     this.holidays.forEach((holiday) => {
+      //if date === to current date
       if (holiday.date === this.convertDate) {
+        //if user.id === inserted user
         if (holiday.UserId === userId) {
+          //update behavioral subject
           this.changeUserHoliday(true);
+          //remove user from area list
           this.managerList = this.managerList.filter(
             (item) => item.id !== item.id
           );
@@ -175,9 +180,12 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
       }
     });
 
+    //if user is already allocated to work
     this.shifts.forEach((user) => {
       if (user.User.id === userId) {
+        //update behavioral subject
         this.changeUserExists(true);
+        //remove user from area array
         this.managerList = this.managerList.filter(
           (item) => item.id !== item.id
         );
@@ -247,4 +255,17 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
