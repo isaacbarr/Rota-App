@@ -72,12 +72,8 @@ export class ChefAreaComponent implements OnInit, OnChanges {
     this.convertDate = this.convert(this.setDate);
 
     this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.shifts = data,
-      data.forEach((shift => {
-        if(shift.area === 'chef'){
-          this.chefShifts.push(shift)
-        }
-      }))
+      this.chefShifts = data,
+
       console.log(this.chefShifts)
     });
 
@@ -213,7 +209,7 @@ export class ChefAreaComponent implements OnInit, OnChanges {
 
     this.scheduleService
       .createShift(userId, startTime, finishTime, date, area)
-      .subscribe((data) => this.chefShifts.push(...data));
+      .subscribe((data) =>{ this.chefShifts.push(...data)});
 
     this.chefList = [];
     this.created = true;

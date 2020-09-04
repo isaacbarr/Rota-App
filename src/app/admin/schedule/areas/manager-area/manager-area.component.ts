@@ -27,7 +27,6 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
 
   managerList = [];
 
-
   hide: boolean = true;
 
   removeEdit: boolean = true;
@@ -39,8 +38,7 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
   userExists: boolean = false;
   userHoliday: boolean = false;
 
-
-  test: []
+  test: [];
   subscriptions: Subscription[] = [];
 
   holidays: Holiday[] = [];
@@ -50,7 +48,7 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
   selectedDay: Date;
 
   convertDate;
-  error: string = '';
+  error: string = "";
 
   set date(date: Date) {
     this.selectedDay = new Date(date.getTime());
@@ -62,43 +60,9 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
     private holidayService: HolidayService
   ) {}
 
-  ngOnChanges() {
-    //convert date so that db can be queried
-    this.convertDate = this.convert(this.setDate);
-
-    //get shifts for updated date
-    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      //set shifts = data
-      this.shifts = data
-    }, err => {
-      //error
-      this.error = err
-    });
-
-    this.holidayService
-      .getHolidaysForDate(this.convertDate)
-      .subscribe((data) => {
-        this.holidays = data;
-      });
-
-    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.shifts = data;
-    });
-
-    this.scheduleService.currentUserExists.subscribe((data) => {
-      this.userExists = data;
-    });
-
-    this.holidayService.currentUserHoliday.subscribe(
-      (data) => (this.userHoliday = data)
-    );
-
-
-
-    //this.managerList = [];
-  }
-
   ngOnInit() {
+    this.changeUserExists(false);
+    this.changeUserHoliday(false);
 
     this.subscriptions = [
       this.scheduleService.schedule$.subscribe((data) => {
@@ -109,7 +73,7 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
     this.convertDate = this.convert(this.setDate);
 
     this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.shifts = data, console.log(this.shifts)
+      this.shifts = data;
     });
 
     this.employeeService.getEmployees().subscribe((data) => {
@@ -121,6 +85,41 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
       .subscribe((data) => {
         this.holidays = data;
       });
+
+    this.scheduleService.currentUserExists.subscribe((data) => {
+      this.userExists = data;
+    });
+
+    this.holidayService.currentUserHoliday.subscribe(
+      (data) => (this.userHoliday = data)
+    );
+  }
+
+  ngOnChanges() {
+    //convert date so that db can be queried
+    this.convertDate = this.convert(this.setDate);
+
+    //get shifts for updated date
+    this.scheduleService.getShifts(this.convertDate).subscribe(
+      (data) => {
+        //set shifts = data
+        this.shifts = data;
+      },
+      (err) => {
+        //error
+        this.error = err;
+      }
+    );
+
+    this.holidayService
+      .getHolidaysForDate(this.convertDate)
+      .subscribe((data) => {
+        this.holidays = data;
+      });
+
+    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
+      this.shifts = data;
+    });
 
     this.scheduleService.currentUserExists.subscribe((data) => {
       this.userExists = data;
@@ -172,7 +171,6 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
           this.managerList = this.managerList.filter(
             (item) => item.id !== item.id
           );
-
         }
       }
     });
@@ -216,7 +214,9 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
 
     this.scheduleService
       .createShift(userId, startTime, finishTime, date, area)
-      .subscribe((data) => {this.shifts.push(...data)});
+      .subscribe((data) => {
+        this.shifts.push(...data);
+      });
 
     this.managerList = [];
     this.created = true;

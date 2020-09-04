@@ -1,17 +1,13 @@
 import { Component, OnInit, Input, OnChanges } from "@angular/core";
-
 import {
   CdkDragDrop,
   moveItemInArray,
   copyArrayItem,
 } from "@angular/cdk/drag-drop";
-
 import { Subscription, BehaviorSubject } from "rxjs";
-
 import { ScheduleService } from "src/app/services/schedule.service";
 import { EmployeeService } from "src/app/services/employee.service";
 import { HolidayService } from "src/app/services/holiday.service";
-//import { Store } from "src/app/store";
 import { Shift } from "src/app/models/shift.model";
 import { Holiday } from "src/app/models/user-holiday.model";
 import { User } from "../../../../models/user.model";
@@ -27,7 +23,6 @@ export class FloorAreaComponent implements OnInit, OnChanges {
 
   floorList = [];
 
-
   hide: boolean = true;
 
   removeEdit: boolean = true;
@@ -39,7 +34,7 @@ export class FloorAreaComponent implements OnInit, OnChanges {
   userExists: boolean = false;
   userHoliday: boolean = false;
 
-  //date$: Observable<Date>;
+
   subscriptions: Subscription[] = [];
 
   holidays: Holiday[] = [];
@@ -56,7 +51,6 @@ export class FloorAreaComponent implements OnInit, OnChanges {
 
   constructor(
     private scheduleService: ScheduleService,
-    //private store: Store,
     private employeeService: EmployeeService,
     private holidayService: HolidayService
   ) {}
@@ -99,7 +93,7 @@ export class FloorAreaComponent implements OnInit, OnChanges {
     this.convertDate = this.convert(this.setDate);
 
     this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.floorShifts = data;
+      (this.floorShifts = data), console.log(this.floorShifts);
     });
 
     this.employeeService.getEmployees().subscribe((data) => {
