@@ -1,6 +1,7 @@
+//import express
 const express = require("express");
 const bodyParser = require("body-parser");
-
+//set express to app
 const app = express();
 
 //database connection
@@ -27,6 +28,7 @@ db.authenticate()
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(

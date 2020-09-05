@@ -18,13 +18,25 @@ const getUsers = async (req, res, next) => {
   let users;
   try {
     users = await User.findAll({
+      //include users address, shifts and holidays
       include: [Address, Shifts, Holidays],
     });
+    //if no users return HTTP error
+    if (!users) {
+      //200 - as search ran successfully
+      //but no users were found
+      const error = new HttpError("Failed to find users", 200);
+      //return error
+      return next(error);
+    }
+    //return all users as JSON object
+    return res.json(users);
+
   } catch (err) {
-    const error = new HttpError("Failed to find users", 404);
+    //catch all problems
+    const error = new HttpError("Server error, please try again later", 500);
     return next(error);
   }
-  return res.json(users);
 };
 
 //get users details by id
