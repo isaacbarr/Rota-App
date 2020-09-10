@@ -7,6 +7,7 @@ import { EmployeeService } from "src/app/services/employee.service";
 @Component({
   selector: "app-employee-holiday",
   templateUrl: "./employee-holiday.component.html",
+  styleUrls: ["../../../../admin/schedule/areas/manager-area/manager-area.component.scss"],
 })
 export class EmployeeHolidayComponent implements OnInit {
   @Input() userId;
