@@ -280,6 +280,7 @@
             <h4 class="modal-title w-100" id="myModalLabel">Shift Details</h4>
           </div>
           <div class="modal-body">
+            <div *ngIf="shiftDetail.length === 0">No information to show</div>
             <div *ngFor="let s of shiftDetail" class="pt-2">
               <div>
                 {{ s.User.name }} ({{ s.area | titlecase }})
@@ -287,8 +288,6 @@
                 {{ s.startTime }} - {{ s.finishTime }}
               </div>
             </div>
-
-
           </div>
           <div class="modal-footer">
             <button

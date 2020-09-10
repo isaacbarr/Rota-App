@@ -31,7 +31,7 @@ export class UserWeeklyShiftsComponent implements OnInit {
   saturday;
   sunday;
   basicModal: any;
-  shiftDetail: Shift[];
+  shiftDetail: Shift[] = [];
   selectedDayIndex: any;
   startTimeArray: number[] = [];
   finishTimeArray: number[] = [];
