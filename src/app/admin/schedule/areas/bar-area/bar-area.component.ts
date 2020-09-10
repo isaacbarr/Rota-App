@@ -19,7 +19,8 @@ import { NgForm } from "@angular/forms";
 @Component({
   selector: "app-bar-area",
   templateUrl: "./bar-area.component.html",
-  styleUrls: ["./bar-area.component.scss"],
+  styleUrls: ["../manager-area/manager-area.component.scss"],
+
 })
 export class BarAreaComponent implements OnInit, OnChanges {
   @Input() selectedDate: Date;

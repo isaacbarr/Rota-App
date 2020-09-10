@@ -16,7 +16,7 @@ import { NgForm } from "@angular/forms";
 @Component({
   selector: "app-floor-area",
   templateUrl: "./floor-area.component.html",
-  styleUrls: ["./floor-area.component.scss"],
+  styleUrls: ["../manager-area/manager-area.component.scss"],
 })
 export class FloorAreaComponent implements OnInit, OnChanges {
   @Input() selectedDate: Date;

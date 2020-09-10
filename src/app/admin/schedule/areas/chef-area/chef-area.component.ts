@@ -21,7 +21,7 @@ import { NgForm } from "@angular/forms";
 @Component({
   selector: "app-chef-area",
   templateUrl: "./chef-area.component.html",
-  styleUrls: ["./chef-area.component.scss"],
+  styleUrls: ["../manager-area/manager-area.component.scss"],
 })
 export class ChefAreaComponent implements OnInit, OnChanges {
   @Input() selectedDate: Date;
