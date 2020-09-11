@@ -71,17 +71,6 @@ const addHoliday = async (req, res, next) => {
       where: { UserId: userId, date },
     });
 
-    if (!check) {
-      const create = await Holiday.create({ date, UserId: userId });
-
-      if (!create) {
-        const error = new HttpError("Problem creating holiday", 401);
-        return next(error);
-      }
-
-      return res.status(200).json(create);
-    }
-
     if (check) {
       //check the user isn't already off this day
       const error = new HttpError(
@@ -90,6 +79,19 @@ const addHoliday = async (req, res, next) => {
       );
       return next(error);
     }
+
+
+      const create = await Holiday.create({ date, UserId: userId });
+
+      if (!create) {
+        const error = new HttpError("Problem creating holiday", 401);
+        return next(error);
+      }
+
+      return res.status(200).json(create);
+
+
+
   } catch (err) {
     const error = new HttpError("Server error, please try again", 500);
     return next(error);
@@ -100,7 +102,7 @@ const addHoliday = async (req, res, next) => {
 const deleteHoliday = (req, res, next) => {
   Holiday.destroy({ where: { id: req.params.id } })
     .then((result) => {
-      res.status(200).json({ message: "Shift deleted successfully" });
+      res.status(200).json({ message: "Holiday deleted successfully" });
     })
     .catch((err) => {
       const error = new HttpError("Server error, please try again", 500);

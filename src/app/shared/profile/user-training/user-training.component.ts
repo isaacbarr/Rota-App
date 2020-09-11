@@ -8,7 +8,7 @@ import { Training } from "../../../models/user-training.model";
 })
 export class UserTrainingComponent implements OnInit {
   @Input() userId: number;
-  training: Training[];
+  training: Training[] = [];
 
   constructor(private trainingService: TrainingService) {}
 

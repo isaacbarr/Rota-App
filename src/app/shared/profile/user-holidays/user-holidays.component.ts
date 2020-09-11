@@ -30,29 +30,10 @@ export class UserHolidaysComponent implements OnInit {
 
     this.holidayService.getHolidaysForUser(this.userId).subscribe(
       (data) => {
-        (this.holidays = data),
-        data.forEach((element) => {
-
-          if (element.date != this.convertDate) {
-            this.today = false;
-          }
-          if (element.date === this.convertDate) {
-            this.today = true;
-          }
-
-          if(element.date > this.convertDate){
-            this.futureHolidays = false
-
-          }
-
-          if(element.date < this.convertDate){
-            this.pastHolidays = false;
-          }
-
-        });
+        this.holidays = data;
       },
       (error) => {
-        this.error = error
+        this.error = error;
       }
     );
   }
@@ -77,9 +58,10 @@ export class UserHolidaysComponent implements OnInit {
       .createUserHoliday(form.value.date, this.userId)
       .subscribe(
         (data) => {
-          const newData = [];
-          newData.push(data);
-          this.holidays.push(...newData)
+          let newDate = [];
+          newDate.push(data);
+
+          this.holidays.push(...newDate);
         },
         (err) => {
           this.error = err;
