@@ -13,6 +13,8 @@ const Holidays = require("../models/holiday");
 const Shifts = require("../models/shifts");
 const Training = require("../models/training");
 
+
+
 //get all users
 const getUsers = async (req, res, next) => {
   let users;
@@ -31,7 +33,6 @@ const getUsers = async (req, res, next) => {
     }
     //return all users as JSON object
     return res.json(users);
-
   } catch (err) {
     //catch all problems
     const error = new HttpError("Server error, please try again later", 500);
