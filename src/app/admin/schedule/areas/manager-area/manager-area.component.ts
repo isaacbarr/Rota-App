@@ -111,19 +111,32 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
       }
     );
 
-    this.holidayService
-      .getHolidaysForDate(this.convertDate)
-      .subscribe((data) => {
+    this.holidayService.getHolidaysForDate(this.convertDate).subscribe(
+      (data) => {
         this.holidays = data;
-      });
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.shifts = data;
-    });
+    this.scheduleService.getShifts(this.convertDate).subscribe(
+      (data) => {
+        this.shifts = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.scheduleService.currentUserExists.subscribe((data) => {
-      this.userExists = data;
-    });
+    this.scheduleService.currentUserExists.subscribe(
+      (data) => {
+        this.userExists = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
     this.holidayService.currentUserHoliday.subscribe(
       (data) => (this.userHoliday = data)
@@ -206,7 +219,10 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
   }
 
   deleteShift(shiftId: number) {
-    this.scheduleService.deleteShift(shiftId).subscribe();
+    this.scheduleService.deleteShift(shiftId).subscribe(),
+      (err) => {
+        this.error = err;
+      };
     this.shifts = this.shifts.filter((item) => item.id !== shiftId);
   }
 
@@ -238,9 +254,14 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
     //updated shift
     this.shifts = this.shifts.filter((item) => item.id !== shiftId);
 
-    this.scheduleService
-      .updateShift(startTime, finishTime, shiftId)
-      .subscribe((data) => this.shifts.push(...data));
+    this.scheduleService.updateShift(startTime, finishTime, shiftId).subscribe(
+      (data) => {
+        this.shifts.push(...data);
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
     this.edit = false;
     this.removeEdit = true;
@@ -255,17 +276,4 @@ export class ManagerAreaComponent implements OnInit, OnChanges {
   ngOnDestroy() {
     this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

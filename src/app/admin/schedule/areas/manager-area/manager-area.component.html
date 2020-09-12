@@ -13,6 +13,8 @@
     No allocated shifts for selected date
   </div>
 
+  <div *ngIf="error" class="text-center py-2"> {{error}} </div>
+
     <!---Shift already created -->
     <div *ngIf="shifts">
     <div *ngFor="let shift of shifts">

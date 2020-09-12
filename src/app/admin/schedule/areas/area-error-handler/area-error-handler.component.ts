@@ -17,21 +17,41 @@ export class AreaErrorHandlerComponent implements OnInit {
 
   ngOnInit() {
     this.scheduleService.currentUserExists.subscribe(
-      (data) => (this.userExists = data)
+      (data) => {
+        this.userExists = data;
+      },
+      (error) => {
+        console.log(error);
+      }
     );
 
     this.holidayService.currentUserHoliday.subscribe(
-      (data) => (this.userHoliday = data)
+      (data) => {
+        this.userHoliday = data;
+      },
+      (error) => {
+        console.log(error);
+      }
     );
   }
 
   ngOnChanges() {
     this.scheduleService.currentUserExists.subscribe(
-      (data) => (this.userExists = data)
+      (data) => {
+        this.userExists = data;
+      },
+      (error) => {
+        console.log(error);
+      }
     );
 
     this.holidayService.currentUserHoliday.subscribe(
-      (data) => (this.userHoliday = data)
+      (data) => {
+        this.userHoliday = data;
+      },
+      (error) => {
+        console.log(error);
+      }
     );
   }
 
@@ -39,52 +59,4 @@ export class AreaErrorHandlerComponent implements OnInit {
     this.userExists = false;
     this.userHoliday = false;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
-

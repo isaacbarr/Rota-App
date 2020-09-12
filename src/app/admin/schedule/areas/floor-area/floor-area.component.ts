@@ -44,6 +44,7 @@ export class FloorAreaComponent implements OnInit, OnChanges {
   selectedDay: Date;
 
   convertDate;
+  error: any;
 
   set date(date: Date) {
     this.selectedDay = new Date(date.getTime());
@@ -59,20 +60,28 @@ export class FloorAreaComponent implements OnInit, OnChanges {
     this.convertDate = this.convert(this.setDate);
     this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
       this.floorShifts = data;
+    }, err => {
+      this.error = err;
     });
 
     this.holidayService
       .getHolidaysForDate(this.convertDate)
       .subscribe((data) => {
         this.holidays = data;
+      }, err => {
+        this.error = err;
       });
 
     this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
       this.floorShifts = data;
+    }, err => {
+      this.error = err;
     });
 
     this.scheduleService.currentUserExists.subscribe((data) => {
       this.userExists = data;
+    }, err => {
+      this.error = err;
     });
 
     this.holidayService.currentUserHoliday.subscribe(
@@ -87,6 +96,8 @@ export class FloorAreaComponent implements OnInit, OnChanges {
     this.subscriptions = [
       this.scheduleService.schedule$.subscribe((data) => {
         this.setDate = data;
+      }, err => {
+        this.error = err;
       }),
     ];
 
@@ -94,16 +105,22 @@ export class FloorAreaComponent implements OnInit, OnChanges {
 
     this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
       (this.floorShifts = data), console.log(this.floorShifts);
+    }, err => {
+      this.error = err;
     });
 
     this.employeeService.getEmployees().subscribe((data) => {
       this.users = data;
+    }, err => {
+      this.error = err;
     });
 
     this.holidayService
       .getHolidaysForDate(this.convertDate)
       .subscribe((data) => {
         this.holidays = data;
+      }, err => {
+        this.error = err;
       });
 
     this.scheduleService.currentUserExists.subscribe(
@@ -157,6 +174,8 @@ export class FloorAreaComponent implements OnInit, OnChanges {
           this.floorList = this.floorList.filter((item) => item.id !== item.id);
         }
       }
+    }, err => {
+      this.error = err;
     });
 
     this.floorShifts.forEach((user) => {
@@ -164,6 +183,8 @@ export class FloorAreaComponent implements OnInit, OnChanges {
         this.changeUserExists(true);
         this.floorList = this.floorList.filter((item) => item.id !== item.id);
       }
+    }, err => {
+      this.error = err;
     });
   }
 
@@ -180,7 +201,9 @@ export class FloorAreaComponent implements OnInit, OnChanges {
   }
 
   deleteShift(shiftId: number) {
-    this.scheduleService.deleteShift(shiftId).subscribe();
+    this.scheduleService.deleteShift(shiftId).subscribe(), err => {
+      this.error = err;
+    };
     this.floorShifts = this.floorShifts.filter((item) => item.id !== shiftId);
   }
 

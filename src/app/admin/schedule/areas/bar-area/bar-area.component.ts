@@ -20,7 +20,6 @@ import { NgForm } from "@angular/forms";
   selector: "app-bar-area",
   templateUrl: "./bar-area.component.html",
   styleUrls: ["../manager-area/manager-area.component.scss"],
-
 })
 export class BarAreaComponent implements OnInit, OnChanges {
   @Input() selectedDate: Date;
@@ -47,6 +46,7 @@ export class BarAreaComponent implements OnInit, OnChanges {
   loading: boolean = false;
 
   convertDate;
+  error: string = "";
 
   set date(date: Date) {
     this.selectedDay = new Date(date.getTime());
@@ -54,12 +54,10 @@ export class BarAreaComponent implements OnInit, OnChanges {
 
   constructor(
     private scheduleService: ScheduleService,
-    //private store: Store,
+
     private employeeService: EmployeeService,
     private holidayService: HolidayService
   ) {}
-
-
 
   ngOnInit() {
     this.loading = true;
@@ -69,52 +67,88 @@ export class BarAreaComponent implements OnInit, OnChanges {
 
     this.convertDate = this.convert(this.setDate);
 
-    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.shifts = data,
-      data.forEach((shift => {
-        if(shift.area === 'bar'){
-          this.barShifts.push(shift)
-        }
-      }))
-    });
+    this.scheduleService.getShifts(this.convertDate).subscribe(
+      (data) => {
+        (this.shifts = data),
+          data.forEach((shift) => {
+            if (shift.area === "bar") {
+              this.barShifts.push(shift);
+            }
+          });
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.employeeService.getEmployees().subscribe((data) => {
-      this.users = data;
-      this.loading = false;
-    });
+    this.employeeService.getEmployees().subscribe(
+      (data) => {
+        this.users = data;
+        this.loading = false;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.holidayService
-      .getHolidaysForDate(this.convertDate)
-      .subscribe((data) => {
+    this.holidayService.getHolidaysForDate(this.convertDate).subscribe(
+      (data) => {
         this.holidays = data;
         this.loading = false;
-      });
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.scheduleService.currentUserExists.subscribe((data) => {
-      this.userExists = data;
-      this.loading = false;
-    });
+    this.scheduleService.currentUserExists.subscribe(
+      (data) => {
+        this.userExists = data;
+        this.loading = false;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.holidayService.currentUserHoliday.subscribe((data) => {
-      (this.userHoliday = data), (this.loading = false);
-    });
+    this.holidayService.currentUserHoliday.subscribe(
+      (data) => {
+        (this.userHoliday = data), (this.loading = false);
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
   }
 
   ngOnChanges() {
     this.convertDate = this.convert(this.setDate);
-    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.barShifts = data
-    });
+    this.scheduleService.getShifts(this.convertDate).subscribe(
+      (data) => {
+        this.barShifts = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.holidayService
-      .getHolidaysForDate(this.convertDate)
-      .subscribe((data) => {
+    this.holidayService.getHolidaysForDate(this.convertDate).subscribe(
+      (data) => {
         this.holidays = data;
-      });
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.barShifts = data;
-    });
+    this.scheduleService.getShifts(this.convertDate).subscribe(
+      (data) => {
+        this.barShifts = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
     this.scheduleService.currentUserExists.subscribe(
       (data) => (this.userExists = data)
@@ -126,8 +160,6 @@ export class BarAreaComponent implements OnInit, OnChanges {
 
     this.barList = [];
   }
-
-
 
   //convert date function
   convert(date) {
@@ -193,7 +225,10 @@ export class BarAreaComponent implements OnInit, OnChanges {
   }
 
   deleteShift(shiftId: number) {
-    this.scheduleService.deleteShift(shiftId).subscribe();
+    this.scheduleService.deleteShift(shiftId).subscribe(),
+      (err) => {
+        this.error = err;
+      };
     this.barShifts = this.barShifts.filter((item) => item.id !== shiftId);
   }
 
@@ -212,7 +247,14 @@ export class BarAreaComponent implements OnInit, OnChanges {
 
     this.scheduleService
       .createShift(userId, startTime, finishTime, date, area)
-      .subscribe((data) => {this.barShifts.push(...data)});
+      .subscribe(
+        (data) => {
+          this.barShifts.push(...data);
+        },
+        (err) => {
+          this.error = err;
+        }
+      );
 
     this.barList = [];
     this.created = true;
@@ -226,9 +268,14 @@ export class BarAreaComponent implements OnInit, OnChanges {
     //updated shift
     this.barShifts = this.barShifts.filter((item) => item.id !== shiftId);
 
-    this.scheduleService
-      .updateShift(startTime, finishTime, shiftId)
-      .subscribe((data) =>{ this.barShifts.push(...data)});
+    this.scheduleService.updateShift(startTime, finishTime, shiftId).subscribe(
+      (data) => {
+        this.barShifts.push(...data);
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
     this.edit = false;
     this.removeEdit = true;

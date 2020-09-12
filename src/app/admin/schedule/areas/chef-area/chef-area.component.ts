@@ -39,7 +39,6 @@ export class ChefAreaComponent implements OnInit, OnChanges {
   userExists: boolean = false;
   userHoliday: boolean = false;
 
-
   subscriptions: Subscription[] = [];
 
   holidays: Holiday[] = [];
@@ -50,6 +49,7 @@ export class ChefAreaComponent implements OnInit, OnChanges {
   selectedDay: Date;
 
   convertDate;
+  error: any;
 
   set date(date: Date) {
     this.selectedDay = new Date(date.getTime());
@@ -61,7 +61,6 @@ export class ChefAreaComponent implements OnInit, OnChanges {
     private holidayService: HolidayService
   ) {}
 
-
   ngOnInit() {
     this.subscriptions = [
       this.scheduleService.schedule$.subscribe((data) => {
@@ -71,52 +70,80 @@ export class ChefAreaComponent implements OnInit, OnChanges {
 
     this.convertDate = this.convert(this.setDate);
 
-    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.chefShifts = data,
+    this.scheduleService.getShifts(this.convertDate).subscribe(
+      (data) => {
+        this.chefShifts = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-      console.log(this.chefShifts)
-    });
+    this.employeeService.getEmployees().subscribe(
+      (data) => {
+        this.users = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.employeeService.getEmployees().subscribe((data) => {
-      this.users = data;
-
-    });
-
-    this.holidayService
-      .getHolidaysForDate(this.convertDate)
-      .subscribe((data) => {
+    this.holidayService.getHolidaysForDate(this.convertDate).subscribe(
+      (data) => {
         this.holidays = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-      });
+    this.scheduleService.currentUserExists.subscribe(
+      (data) => {
+        this.userExists = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.scheduleService.currentUserExists.subscribe((data) => {
-      this.userExists = data;
-
-    });
-
-    this.holidayService.currentUserHoliday.subscribe((data) => {
-      (this.userHoliday = data)
-    });
+    this.holidayService.currentUserHoliday.subscribe(
+      (data) => {
+        this.userHoliday = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
   }
-
-
-
 
   ngOnChanges() {
     this.convertDate = this.convert(this.setDate);
-    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.chefShifts = data
-    });
+    this.scheduleService.getShifts(this.convertDate).subscribe(
+      (data) => {
+        this.chefShifts = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.holidayService
-      .getHolidaysForDate(this.convertDate)
-      .subscribe((data) => {
+    this.holidayService.getHolidaysForDate(this.convertDate).subscribe(
+      (data) => {
         this.holidays = data;
-      });
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
-    this.scheduleService.getShifts(this.convertDate).subscribe((data) => {
-      this.chefShifts = data;
-    });
+    this.scheduleService.getShifts(this.convertDate).subscribe(
+      (data) => {
+        this.chefShifts = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
     this.scheduleService.currentUserExists.subscribe(
       (data) => (this.userExists = data)
@@ -128,7 +155,6 @@ export class ChefAreaComponent implements OnInit, OnChanges {
 
     this.chefList = [];
   }
-
 
   //convert date function
   convert(date) {
@@ -194,7 +220,10 @@ export class ChefAreaComponent implements OnInit, OnChanges {
   }
 
   deleteShift(shiftId: number) {
-    this.scheduleService.deleteShift(shiftId).subscribe();
+    this.scheduleService.deleteShift(shiftId).subscribe(),
+      (err) => {
+        this.error = err;
+      };
     this.chefShifts = this.chefShifts.filter((item) => item.id !== shiftId);
   }
 
@@ -209,7 +238,14 @@ export class ChefAreaComponent implements OnInit, OnChanges {
 
     this.scheduleService
       .createShift(userId, startTime, finishTime, date, area)
-      .subscribe((data) =>{ this.chefShifts.push(...data)});
+      .subscribe(
+        (data) => {
+          this.chefShifts.push(...data);
+        },
+        (err) => {
+          this.error = err;
+        }
+      );
 
     this.chefList = [];
     this.created = true;
@@ -225,7 +261,9 @@ export class ChefAreaComponent implements OnInit, OnChanges {
 
     this.scheduleService
       .updateShift(startTime, finishTime, shiftId)
-      .subscribe((data) => this.chefShifts.push(...data));
+      .subscribe((data) => {this.chefShifts.push(...data)}, err => {
+        this.error = err;
+      });
 
     this.edit = false;
     this.removeEdit = true;

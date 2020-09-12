@@ -9,12 +9,18 @@ import { Training } from "../../../models/user-training.model";
 export class UserTrainingComponent implements OnInit {
   @Input() userId: number;
   training: Training[] = [];
+  error: any;
 
   constructor(private trainingService: TrainingService) {}
 
   ngOnInit(): void {
-    this.trainingService
-      .getTraining(this.userId)
-      .subscribe((data) => (this.training = data));
+    this.trainingService.getTraining(this.userId).subscribe(
+      (data) => {
+        this.training = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
   }
 }

@@ -10,6 +10,8 @@
     No allocated shifts for selected date
   </div>
 
+  <div *ngIf="error" class="text-center py-2"> {{error}} </div>
+
   <div *ngIf="floorShifts">
     <div *ngFor="let shift of floorShifts">
       <div *ngIf="shift.area === 'floor'">

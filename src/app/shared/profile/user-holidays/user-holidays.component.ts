@@ -47,9 +47,10 @@ export class UserHolidaysComponent implements OnInit {
   }
 
   removeHoliday(id: number) {
-    this.holidayService
-      .deleteHoliday(id)
-      .subscribe((data) => console.log(data));
+    this.holidayService.deleteHoliday(id).subscribe(),
+      (err) => {
+        this.error = err;
+      };
     this.holidays = this.holidays.filter((item) => item.id !== id);
   }
 
