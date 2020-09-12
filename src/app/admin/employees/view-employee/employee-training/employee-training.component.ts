@@ -7,7 +7,9 @@ import { TrainingService } from "src/app/services/training.service";
 @Component({
   selector: "app-employee-training",
   templateUrl: "./employee-training.component.html",
-
+  styleUrls: [
+    "../../../../shared/profile/user-holidays/user-holidays.component.scss",
+  ],
 })
 export class EmployeeTrainingComponent implements OnInit {
   @Input() userId;
@@ -16,6 +18,7 @@ export class EmployeeTrainingComponent implements OnInit {
   training: Training[] = [];
   otherTraining: Training[] = [];
   error = "";
+  alertError: boolean = false
 
   constructor(private trainingService: TrainingService) {}
 
@@ -47,23 +50,26 @@ export class EmployeeTrainingComponent implements OnInit {
         .insertTrainingArea(this.userId, form.value.area)
         .subscribe(
           (data) => {
-            this.training.push(...data)
+            console.log(data);
+            let newDate = [];
+            newDate.push(data);
+            this.training.push(...newDate);
             this.trainingAdded.emit(true);
             this.error = "Area added successfully";
+            this.alertError = true;
           },
           (error) => {
             this.error = error;
+            this.alertError = true;
           }
         );
     } else {
       this.error = "The area you have selected is not a created area";
     }
-
-
   }
 
   addOtherTrainingArea(form: NgForm) {
-    this.otherTraining = [];
+
 
     if (form.invalid) {
       return;
@@ -73,16 +79,26 @@ export class EmployeeTrainingComponent implements OnInit {
       .addOtherTrainingArea(this.userId, form.value.train, form.value.date)
       .subscribe(
         (data) => {
+          let newDate = [];
+          newDate.push(data);
+          this.otherTraining.push(...newDate);
           this.trainingAdded.emit(true);
-          this.error = "Area added successfully";
+          this.error = "Training added successfully";
+          this.alertError = true;
         },
         (error) => {
           this.error = error;
+          this.alertError = true;
         }
       );
+  }
 
-    this.trainingService.getTraining(this.userId).subscribe((data) => {
-      this.otherTraining = data;
-    });
+  removeTraining(id: number) {
+    this.trainingService.deleteTraining(id).subscribe();
+    this.otherTraining = this.otherTraining.filter((item) => item.id != id);
+  }
+
+  closeAlert(){
+    this.alertError = false;
   }
 }

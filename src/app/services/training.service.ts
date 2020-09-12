@@ -27,4 +27,8 @@ export class TrainingService {
   ): Observable<Training[]> {
     return this.http.post<Training[]>(this.url + id, { training, date });
   }
+
+  deleteTraining(id : number){
+    return this.http.delete(this.url + id);
+  }
 }

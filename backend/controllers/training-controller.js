@@ -74,6 +74,19 @@ const addTrainingForUser = async (req, res, next) => {
   }
 };
 
+const deleteUser = (req, res, next) => {
+  const trainingId = req.params.id;
+  Training.destroy({ where: { id: trainingId } })
+    .then((result) => {
+      res.status(200).json({ message: "Training deleted successfully" });
+    })
+    .catch((err) => {
+      const error = new HttpError("Server error, please try again", 500);
+      return next(error);
+    });
+};
+
 exports.getAll = getAll;
 exports.getTrainingByUserId = getTrainingByUserId;
 exports.addTrainingForUser = addTrainingForUser;
+exports.deleteUser = deleteUser;
