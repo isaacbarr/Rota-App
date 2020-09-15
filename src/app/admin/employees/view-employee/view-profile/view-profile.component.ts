@@ -13,7 +13,7 @@ export class ViewProfileComponent implements OnInit {
 
   user: User[] = [];
   error: string;
-  message = "";
+  message: string = "";
 
   constructor(
     private employeeService: EmployeeService,
@@ -65,5 +65,12 @@ export class ViewProfileComponent implements OnInit {
       window.alert("User deleted");
       this.router.navigate(["/admin/employees"]);
     });
+  }
+
+  closeAlert(){
+    this.message = '';
+    this.error = '';
+
+
   }
 }

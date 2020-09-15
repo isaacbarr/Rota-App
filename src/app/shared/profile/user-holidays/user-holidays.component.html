@@ -59,14 +59,16 @@
       </form>
 
       <!---Today-->
+      <div class="border border-dark text-center section">
+        <h6>Today</h6>
+      </div>
+      <div *ngIf="today != true">
+        <div class="text-center py-2">You have not requested day off</div>
+      </div>
       <div *ngFor="let holiday of holidays">
         <div *ngIf="holiday.date === convertDate">
-          <div class="border border-dark text-center section">
-            <h6>Today</h6>
-          </div>
-
-          <div *ngIf="today === false" class="text-center p-2">
-            <p>You're unavailable today</p>
+          <div class="text-center py-2">
+            You've requested today off. Enjoy your day off!!
           </div>
         </div>
       </div>
@@ -105,8 +107,6 @@
         <h6>Past</h6>
       </div>
 
-
-
       <div *ngFor="let holiday of holidays.slice(0, 7)">
         <div *ngIf="holiday.date < convertDate">
           <div class="row py-2 text-center">
@@ -118,9 +118,9 @@
       </div>
     </div>
     <div class="text-center py-2">
-      All your holidays can be found by clicking the view all holidays button below
+      All your holidays can be found by clicking the view all holidays button
+      below
     </div>
-
   </mdb-card-body>
   <div class="row p-2">
     <div class="col text-right">

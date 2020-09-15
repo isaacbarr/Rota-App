@@ -31,6 +31,12 @@ export class UserHolidaysComponent implements OnInit {
     this.holidayService.getHolidaysForUser(this.userId).subscribe(
       (data) => {
         this.holidays = data;
+
+        this.holidays.forEach(item => {
+          if(item.date === this.convertDate){
+            this.today = true;
+          }
+        })
       },
       (error) => {
         this.error = error;
@@ -61,7 +67,6 @@ export class UserHolidaysComponent implements OnInit {
         (data) => {
           let newDate = [];
           newDate.push(data);
-
           this.holidays.push(...newDate);
         },
         (err) => {

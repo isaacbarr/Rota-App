@@ -1,12 +1,36 @@
 
 
 <form (submit)="onSubmit(editForm)" #editForm="ngForm">
-  <div *ngIf="error" class="alert alert-danger text-center" role="alert">
-    {{ error }}
+  <div
+    *ngIf="error"
+    class="alert alert-danger alert-dismissible fade show"
+    role="alert"
+  >
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeAlert()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{error}}
   </div>
 
-  <div *ngIf="message" class="alert alert-success text-center" role="alert">
-    {{ message }}
+  <div
+    *ngIf="message"
+    class="alert alert-success alert-dismissible fade show"
+    role="alert"
+  >
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="closeAlert()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+    {{message}}
   </div>
 
   <table mdbTable class="pt-5" *ngFor="let user of user">
