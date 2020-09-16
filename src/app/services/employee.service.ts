@@ -32,15 +32,15 @@ export class EmployeeService {
   }
 
   editEmployee(
-    name,
-    email,
-    phoneNo,
-    pay,
-    houseNo,
-    street,
-    city,
-    postcode,
-    id
+    name: string,
+    email: string,
+    phoneNo: number,
+    pay: string,
+    houseNo: number,
+    street: string,
+    city: string,
+    postcode: string,
+    id: number
   ): Observable<User[]> {
     return this.http.put<User[]>(this.url + "/update/" + id, {
       name,
@@ -55,16 +55,16 @@ export class EmployeeService {
   }
 
   editEmployeeAndRole(
-    name,
-    email,
-    phoneNo,
-    pay,
-    houseNo,
-    street,
-    city,
-    postcode,
-    userRole,
-    id
+    name: string,
+    email: string,
+    phoneNo: number,
+    pay: string,
+    houseNo: number,
+    street: string,
+    city: string,
+    postcode: string,
+    userRole: string,
+    id: number
   ): Observable<User[]> {
     return this.http.put<User[]>(this.url + "/updateuserandrole/" + id, {
       name,
@@ -79,7 +79,7 @@ export class EmployeeService {
     });
   }
 
-  editEmployeePass(currentPass, updatedPass, id) {
+  editEmployeePass(currentPass: string, updatedPass: string, id: number) {
     return this.http.put(this.url + "/password/" + id, {
       currentPass,
       updatedPass,

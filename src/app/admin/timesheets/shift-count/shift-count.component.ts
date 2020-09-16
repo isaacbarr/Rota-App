@@ -22,6 +22,7 @@ export class ShiftCountComponent implements OnInit {
   startTimeArray: number[] = [];
   finishTimeArray: number[] = [];
   totalHoursSum: number;
+  error: any;
 
   constructor(private scheduleService: ScheduleService) {}
 
@@ -34,6 +35,8 @@ export class ShiftCountComponent implements OnInit {
       .getShiftsForDateRange(this.startOfWeek, this.endOfWeek)
       .subscribe((data) => {
         this.shifts = data;
+      }, err => {
+        this.error = err;
       });
 
     this.getShiftCount();
@@ -72,8 +75,6 @@ export class ShiftCountComponent implements OnInit {
 
     this.getShiftCount();
     this.getApproval();
-
-    console.log(this.today);
   }
 
   //gets total hours for all shifts per week

@@ -56,13 +56,23 @@ export class TimesheetsComponent implements OnInit {
 
     this.scheduleService
       .getShiftsForDateRange(this.startOfWeek, this.endOfWeek)
-      .subscribe((data) => {
-        (this.allShifts = data), console.log(data);
-      });
+      .subscribe(
+        (data) => {
+          this.allShifts = data;
+        },
+        (err) => {
+          this.error = err;
+        }
+      );
 
-    this.employeeService
-      .getEmployeeDetails(this.userId)
-      .subscribe((data) => (this.user = data));
+    this.employeeService.getEmployeeDetails(this.userId).subscribe(
+      (data) => {
+        this.user = data;
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
   }
 
   getTotalHours(startTime, finishTime) {
@@ -124,16 +134,23 @@ export class TimesheetsComponent implements OnInit {
 
     this.scheduleService
       .getDateRange(this.userId, this.startOfWeek, this.endOfWeek)
-      .subscribe((data) => {
-        this.shifts = data;
-      });
+      .subscribe(
+        (data) => {
+          this.shifts = data;
+        },
+        (err) => {
+          this.error = err;
+        }
+      );
 
     this.startOfWeek = this.getStartOfWeek(this.startDate);
     this.endOfWeek = this.getEndOfWeek(this.startDate);
 
     this.employeeService
       .getEmployeeDetails(this.userId)
-      .subscribe((data) => (this.user = data));
+      .subscribe((data) => {(this.user = data)}, err=> {
+        this.error = err;
+      });
   }
 
   changeHours(form: NgForm, shiftId: number) {
@@ -155,17 +172,30 @@ export class TimesheetsComponent implements OnInit {
   }
 
   deleteShift(shiftId: number) {
-    this.scheduleService.deleteShift(shiftId).subscribe();
+    this.scheduleService.deleteShift(shiftId).subscribe(
+      (data) => {
+        console.log("shift deleted");
+      },
+      (err) => {
+        this.error = err;
+      }
+    );
 
     this.scheduleService
       .getDateRange(this.userId, this.startOfWeek, this.endOfWeek)
-      .subscribe((data) => {
-        this.shifts = data;
-      });
+      .subscribe(
+        (data) => {
+          this.shifts = data;
+        },
+        (err) => {
+          this.error = err;
+        }
+      );
 
+    /*
     this.scheduleService
       .getShiftsForDateRange(this.startOfWeek, this.endOfWeek)
-      .subscribe((data) => (this.allShifts = data));
+      .subscribe((data) => (this.allShifts = data)); */
   }
 
   approve(shiftId: number) {

@@ -27,7 +27,7 @@ export class AuthService {
     this.user = this.userSubject.asObservable();
   }
 
-  login(email, password) {
+  login(email: string, password: string) {
     return this.http
       .post<AuthData>("http://localhost:3000/api/users/login", {
         email,
@@ -43,7 +43,7 @@ export class AuthService {
       );
   }
 
-  resetPassword(email, name, dob, password) {
+  resetPassword(email: string, name: string, dob: string, password: string) {
     return this.http.put<any>("http://localhost:3000/api/users/resetpassword", {
       email,
       name,

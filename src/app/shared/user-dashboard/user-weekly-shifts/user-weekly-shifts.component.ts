@@ -9,7 +9,7 @@ import { Shift } from "src/app/models/shift.model";
   templateUrl: "./user-weekly-shifts.component.html",
 })
 export class UserWeeklyShiftsComponent implements OnInit {
-  @Input() startDate;
+  @Input() startDate:Date;
 
   userId: number;
   user: User[] = [];
@@ -57,7 +57,6 @@ export class UserWeeklyShiftsComponent implements OnInit {
 
     this.scheduleService.getShiftsById(this.userId).subscribe(
       (data) => {
-
         this.shifts = data;
       },
       (err) => {
@@ -94,8 +93,9 @@ export class UserWeeklyShiftsComponent implements OnInit {
     return [year, month, day].join("-");
   }
 
-  setDay(day, startOfWeek) {
-    const date = new Date(startOfWeek.setDate(startOfWeek.getDate() + day));
+  setDay(day: number, startOfWeek: Date) {
+    const setDate:number = startOfWeek.setDate(startOfWeek.getDate() + day);
+    const date = new Date(setDate);
     return this.convert(date);
   }
 
@@ -112,7 +112,6 @@ export class UserWeeklyShiftsComponent implements OnInit {
       },
       (error) => {
         this.error = error;
-
       }
     );
   }

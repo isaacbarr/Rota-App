@@ -67,7 +67,7 @@ export class ScheduleService {
     });
   }
 
-  getShiftsForDateRange(startWeek, endWeek): Observable<Shift[]> {
+  getShiftsForDateRange(startWeek: Date, endWeek: Date): Observable<Shift[]> {
     return this.http.post<Shift[]>(this.url + "/daterange", {
       startWeek,
       endWeek,
