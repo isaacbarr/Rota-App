@@ -126,8 +126,6 @@
             {{ successMessage }}
           </div>
 
-
-
           <table
             mdbTable
             borderless="true"
@@ -342,7 +340,7 @@
           class="close pull-right"
           aria-label="Close"
           (click)="passModal.hide()"
-          (click)="reset()"
+          (click)="closeAlert()"
         >
           <span aria-hidden="true">×</span>
         </button>
@@ -354,9 +352,25 @@
           class="alert alert-success text-center"
           role="alert"
         >
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="closeAlert()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
           {{ successMessage }}
         </div>
         <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+          <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="closeAlert()"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
           {{ error }}
         </div>
         <form (submit)="passUpdate(passForm)" #passForm="ngForm">

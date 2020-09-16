@@ -80,6 +80,7 @@ export class UserInformationComponent implements OnInit {
     closeAlert(){
       this.successMessage = '';
       this.error = '';
+      this.informationUpdated = false;
 
 
 
