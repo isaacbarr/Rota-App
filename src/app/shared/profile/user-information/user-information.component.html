@@ -63,7 +63,6 @@
               color="link"
               size="sm"
               (click)="passModal.show()"
-
               mdbWavesEffect
             >
               Edit
@@ -112,12 +111,22 @@
           </div>
 
           <div
-          *ngIf="informationUpdated"
-          class="alert alert-success text-center"
-          role="alert"
-        >
-          {{successMessage}}
-        </div>
+            *ngIf="successMessage"
+            class="alert alert-success alert-dismissible fade show"
+            role="alert"
+          >
+            <button
+              type="button"
+              class="close"
+              aria-label="Close"
+              (click)="closeAlert()"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+            {{ successMessage }}
+          </div>
+
+
 
           <table
             mdbTable
@@ -143,9 +152,7 @@
                     *ngIf="name.invalid && (name.dirty || name.touched)"
                     class="alert alert-danger"
                   >
-                    <div *ngIf="name.errors.required">
-                      Name is required.
-                    </div>
+                    <div *ngIf="name.errors.required">Name is required.</div>
                   </div>
                 </td>
               </tr>
@@ -167,9 +174,7 @@
                     *ngIf="email.invalid && (email.dirty || email.touched)"
                     class="alert alert-danger"
                   >
-                    <div *ngIf="email.errors.required">
-                      Email is required.
-                    </div>
+                    <div *ngIf="email.errors.required">Email is required.</div>
                   </div>
                 </td>
               </tr>
@@ -345,24 +350,19 @@
       </div>
       <div class="modal-body">
         <div
-                  *ngIf="informationUpdated"
-                  class="alert alert-success text-center"
-                  role="alert"
-                >
-                  {{successMessage}}
-                </div>
-                <div
-                  *ngIf="error"
-                  class="alert alert-danger text-center"
-                  role="alert"
-                >
-                 {{error}}
-                </div>
+          *ngIf="informationUpdated"
+          class="alert alert-success text-center"
+          role="alert"
+        >
+          {{ successMessage }}
+        </div>
+        <div *ngIf="error" class="alert alert-danger text-center" role="alert">
+          {{ error }}
+        </div>
         <form (submit)="passUpdate(passForm)" #passForm="ngForm">
           <table mdbTable borderless="true">
             <tbody>
               <tr mdbTableCol>
-
                 <th scope="row">Current:</th>
 
                 <td>
