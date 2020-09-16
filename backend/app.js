@@ -21,10 +21,12 @@ const holidayRoutes = require("./routes/holiday-routes");
 const shiftRoutes = require("./routes/shift-routes");
 const trainingRoutes = require("./routes/training-routes");
 
+//test db connection
 db.authenticate()
   .then(() => console.log("connected"))
   .catch((err) => console.log(err));
 
+//use body parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -54,6 +56,7 @@ app.use((req, res, next) => {
   throw error;
 });
 
+//throw 500 error
 app.use((error, req, res, next) => {
   if (res.headerSent) {
     return next(error);
@@ -63,6 +66,7 @@ app.use((error, req, res, next) => {
 });
 
 //relations
+//address belongs to user - user has one address
 Address.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasOne(Address);
 
@@ -76,7 +80,6 @@ Training.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
 User.hasMany(Training);
 
 //database sync
-
 /*
 db.sync({ alter: true })
   .then((result) => {
@@ -85,5 +88,7 @@ db.sync({ alter: true })
   .catch((err) => {
     console.log(err);
   });
-*/
+  */
+
+//export app
 module.exports = app;
