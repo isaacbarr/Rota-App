@@ -11,7 +11,7 @@ export class UserInformationComponent implements OnInit {
   @Input() userId: number;
 
   user: User[] = [];
-  successMessage: string = '';
+  successMessage: string = "";
   passwordUpdate: boolean = false;
   informationUpdated: boolean = false;
   error: string;
@@ -76,13 +76,9 @@ export class UserInformationComponent implements OnInit {
     this.informationUpdated = false;
   }
 
-
-    closeAlert(){
-      this.successMessage = '';
-      this.error = '';
-      this.informationUpdated = false;
-
-
-
+  closeAlert() {
+    this.successMessage = "";
+    this.error = "";
+    this.informationUpdated = false;
   }
 }
