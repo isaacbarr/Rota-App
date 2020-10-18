@@ -63,7 +63,7 @@
         <h6>Today</h6>
       </div>
       <div *ngIf="today != true">
-        <div class="text-center py-2">You have not requested day off</div>
+        <div class="text-center py-2">You have not requested today off</div>
       </div>
       <div *ngFor="let holiday of holidays">
         <div *ngIf="holiday.date === convertDate">
