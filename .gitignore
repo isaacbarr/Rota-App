@@ -42,8 +42,9 @@ testem.log
 /typings
 
 # System Files
+/backend/config/
 .DS_Store
 Thumbs.db
 
 
-/backend/config/*
+
